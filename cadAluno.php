@@ -1,1 +1,4 @@
+<?php
+require('conectar');
 
+?>
