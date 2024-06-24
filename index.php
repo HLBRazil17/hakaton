@@ -14,7 +14,7 @@ function obterRota() {
 
 // Função para incluir a página correspondente
 function incluirPagina($pagina) {
-    $arquivoPagina = "pages/{$pagina}.php";
+    $arquivoPagina = "pages/{$pagina}.html";
 
     // Verifica se o arquivo da página existe
     if (file_exists($arquivoPagina)) {
