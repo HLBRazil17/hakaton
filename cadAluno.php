@@ -1,4 +1,4 @@
 <?php
-require('conectar');
+require('conectar.php');
 
 ?>
