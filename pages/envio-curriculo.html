@@ -1,0 +1,57 @@
+<div>
+    <input type="file" name="arquivoCurriculo" id="envioCurriculo">
+    <!-- <div id="previaCurriculo"></div> -->
+    <button onclick="enviarArquivo()">Enviar</button>
+</div>
+
+<script>
+    function enviarArquivo() {
+        const envioCurriculo = document.querySelector('#envioCurriculo')
+        const arquivo = envioCurriculo.files[0];
+
+        if (!arquivo) {
+            alert('Por favor, selecione um arquivo PDF.');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('arquivoCurriculo', arquivo);
+
+        fetch('http://localhost:8080/api/v1/valCurriculo.php', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Ocorreu um erro ao enviar o arquivo.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Resposta do servidor:', data);
+                alert('Arquivo PDF enviado com sucesso!');
+            })
+            .catch(error => {
+                console.error('Erro ao enviar o arquivo PDF:', error);
+                alert('Erro ao enviar o arquivo PDF. Por favor, tente novamente.');
+            });
+    }
+
+    // function exibirPreviewPDF(event) {
+    //     const arquivo = event.target.files[0];
+    //     const reader = new FileReader();
+    //     const previaCurriculo = document.querySelector('#previaCurriculo')
+
+    //     reader.onload = function (e) {
+    //         const curriculoUrl = e.target.result;
+    //         const previa = `<embed src="${curriculoUrl}" type="application/pdf" width="100%" height="100%">`;
+    //         previaCurriculo.innerHTML = previa;
+    //     };
+
+    //     if (arquivo) {
+    //         reader.readAsDataURL(arquivo);
+    //     }
+    // }
+
+    // document.getElementById('envioCurriculo').addEventListener('change', exibirPreviewPDF);
+</script>

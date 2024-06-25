@@ -1,4 +1,5 @@
 <?php
+
 //OBTÉM A ROTA DA URL
 function obterRota(){
     $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -6,13 +7,13 @@ function obterRota(){
 
     //DEFINE A ROTA PADRÃO CASO ESTIVER VAZIA
     if (empty($rota[0])) {
-        $rota[0] = 'cadAluno';
+        $rota[0] = 'cadastro-aluno';
     }
 
     return $rota[0];
 }
 
-//INCLUIR AS PÁGINAS RETORNADAS PELO OBTERROTA()
+//INCLUI AS PÁGINAS RETORNADAS PELO OBTERROTA()
 function incluirPagina($pagina){
     $arquivoPagina = "pages/{$pagina}.html";
 
@@ -48,11 +49,14 @@ $tituloPagina = ucfirst(str_replace('-', ' ', $rota));
         <ul>
             <li><a href="/">Cadastro de Aluno</a></li>
             <li><a href="/gerenciamento-alunos">Gerenciamento de Alunos</a></li>
+            <li><a href="/envio-curriculo">Envio Curriculo</a></li>
         </ul>
     </nav>
 
     <main>
-        <?php incluirPagina($rota); ?>
+        <?php 
+            incluirPagina($rota);
+        ?>
     </main>
     
     <footer>

@@ -2,50 +2,61 @@
 
 //VERIFICA SE A REQUEST É UM (POST)
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
+
     //CONECTA COMO BANCO DE DADOS
     require ('databaseManager/conectar.php');
 
-    //RECEBE OS VALORES PASSADOS DO PARAMETRO
+    //PREPARA AS VARIÁVEIS COM O VALOR PASSADO PELOS PARÂMETROS
     $nome = $_POST['nome'];
     $dataNasc = $_POST['dataNasc'];
 
-    // PREPARA A CONSULTA SQL PARA VERIFICAR SE O USUÁRIO EXISTE
-    $sql = "SELECT * FROM teste WHERE nome LIKE '$nome' AND teste LIKE '$dataNasc'";
-    $result = $conn->query($sql);
+    function consultarTabela($conn, $nomeTabela){
+        // PREPARA A CONSULTA SQL PARA VERIFICAR SE O USUÁRIO EXISTE
+        $sql = "SELECT * FROM {$nomeTabela}";
+
+        //EXECUTA A CONSULTA
+        $result = $conn->query($sql);
+
+        //RETORNA O RESULTADO DA CONSULTA
+        return $result;
+    }
 
     //VERIFICA SE O ALUNO EXISTE
     if($result->num_rows <= 0){
         throw new \Exception("Esse usuário não existe", 404);
     }
 
-    //VERIFICA SE O ARQUIVO FOI ENVIADO
-    if (!isset($_FILES['pdfFile'])) {
-        throw new \Exception("Envie um arquivo PDF", 404);
-    }
-
     //VALIDA SE O ARQUIVO É UM PDF
-    if ($_FILES['pdfFile']['type'] != 'application/pdf') {
-        throw new \Exception("Envie um arquivo PDF válido", 400);
+    if ($_FILES['arquivoCurriculo']['type'] != 'application/pdf') {
+        http_response_code(400);
+        echo json_encode(['error' => 'Envie um arquivo PDF válido.']);
+        exit;
     }
 
-    //DEFINE O TAMANHO MÁXIMO DO ARQUIVO(5 MB)
+    //DEFINE O TAMANHO MÁXIMO DO ARQUIVO (5 MB)
     $tamanhoMaximo = 5 * 1024 * 1024;
 
     //VERIFICA O TAMANHO DO ARQUIVO
-    if ($_FILES['pdfFile']['size'] > $tamanhoMaximo) {
-        throw new \Exception("O arquivo PDF deve ter no máximo 5 MB", 400);
+    if ($_FILES['arquivoCurriculo']['size'] > $tamanhoMaximo) {
+        http_response_code(400);
+        echo json_encode(['error' => 'O arquivo PDF deve ter no máximo 5 MB.']);
+        exit;
     }
 
-    //GERA UM NOME ÚNICO PARA O ARQUIVO
-    $extensao = pathinfo($_FILES['pdfFile']['name'], PATHINFO_EXTENSION);
-    $nomeArquivo = str_replace('.', '', uniqid('', true)) . '.' . $extensao;
-    $destino = 'upload/' . $nomeArquivo;
+    // GERA UM NOME ÚNICO PARA O ARQUIVO
+    $extensao = pathinfo($_FILES['arquivoCurriculo']['name'], PATHINFO_EXTENSION);
+    $nomeArquivo = uniqid('', true) . '.' . $extensao;
+    $destino = __DIR__ . '/../../upload/' . $nomeArquivo;
 
-    //VALIDA SE O ENVIO FOI BEM SUCEDIDO
-    if (!move_uploaded_file($_FILES['pdfFile']['tmp_name'], $destino)) {
-        throw new \Exception("Erro ao enviar o arquivo", 501);
+    //MOVE O ARQUIVO PARA O DESTINO
+    if (!move_uploaded_file($_FILES['arquivoCurriculo']['tmp_name'], $destino)) {
+        http_response_code(500);
+        echo json_encode(['error' => 'Erro ao enviar o arquivo.']);
+        exit;
     }
-
+    
+    //ARQUIVO ENVIADO COM SUCESSO
+    
+    echo json_encode(['success' => 'Arquivo PDF enviado com sucesso.', 'nome_arquivo' => $nomeArquivo, 'teste' => 'http://'.$_SERVER['HTTP_HOST'].'/upload/'.$nomeArquivo]);
+    
 }
-?>
