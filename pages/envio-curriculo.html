@@ -1,20 +1,52 @@
 <div>
-    <input type="file" name="arquivoCurriculo" id="envioCurriculo">
-    <!-- <div id="previaCurriculo"></div> -->
-    <button onclick="enviarArquivo()">Enviar</button>
+    <div id="mensagensAviso"></div>
+
+    <section>
+        <label for="nome">Ra:</label>
+        <input type="text" id="ra" name="ra" required>
+
+        <label for="dataNascimento">Data de Nascimento:</label>
+        <input type="date" id="dataNascimento" name="dataNascimento" required>
+
+        <input type="file" name="arquivoCurriculo" id="envioCurriculo" accept="application/pdf">
+        <div id="previaCurriculo"></div>
+
+        <button onclick="enviarArquivo()">Enviar</button>
+    </section>
+
 </div>
 
+
 <script>
+    function mostrarAviso(mensagem, tipo = 'info') {
+        const mensagensAviso = document.querySelector('#mensagensAviso');
+        mensagensAviso.innerHTML = <div class="aviso ${tipo}">${mensagem}</div>;
+    }
+
     function enviarArquivo() {
-        const envioCurriculo = document.querySelector('#envioCurriculo')
+        const ra = document.querySelector('#ra').value;
+        const dataNascimento = document.querySelector('#dataNascimento').value;
+        const envioCurriculo = document.querySelector('#envioCurriculo');
         const arquivo = envioCurriculo.files[0];
 
         if (!arquivo) {
-            alert('Por favor, selecione um arquivo PDF.');
+            mostrarAviso('Por favor, selecione um arquivo Válido.');
+            return;
+        }
+
+        if (!ra) {
+            mostrarAviso('Por favor, insira seu nome.');
+            return;
+        }
+
+        if (!dataNascimento) {
+            mostrarAviso('Por favor, insira sua data de nascimento.');
             return;
         }
 
         const formData = new FormData();
+        formData.append('ra', ra);
+        formData.append('dataNascimento', dataNascimento);
         formData.append('arquivoCurriculo', arquivo);
 
         fetch('http://localhost:8080/api/v1/valCurriculo.php', {
@@ -29,29 +61,35 @@
             })
             .then(data => {
                 console.log('Resposta do servidor:', data);
-                alert('Arquivo PDF enviado com sucesso!');
+                mostrarAviso('Dados enviados com sucesso!', 'sucesso');
             })
             .catch(error => {
-                console.error('Erro ao enviar o arquivo PDF:', error);
-                alert('Erro ao enviar o arquivo PDF. Por favor, tente novamente.');
+                console.error('Erro ao enviar os dados:', error);
+                mostrarAviso('Erro ao enviar os dados. Por favor, tente novamente.', 'erro');
             });
     }
 
-    // function exibirPreviewPDF(event) {
-    //     const arquivo = event.target.files[0];
-    //     const reader = new FileReader();
-    //     const previaCurriculo = document.querySelector('#previaCurriculo')
-
-    //     reader.onload = function (e) {
-    //         const curriculoUrl = e.target.result;
-    //         const previa = `<embed src="${curriculoUrl}" type="application/pdf" width="100%" height="100%">`;
-    //         previaCurriculo.innerHTML = previa;
-    //     };
-
-    //     if (arquivo) {
-    //         reader.readAsDataURL(arquivo);
-    //     }
-    // }
-
-    // document.getElementById('envioCurriculo').addEventListener('change', exibirPreviewPDF);
 </script>
+
+<style>
+    .aviso {
+        padding: 10px;
+        margin-top: 10px;
+        border-radius: 5px;
+    }
+
+    .aviso.info {
+        background-color: #d9edf7;
+        color: #31708f;
+    }
+
+    .aviso.erro {
+        background-color: #f2dede;
+        color: #a94442;
+    }
+
+    .aviso.sucesso {
+        background-color: #dff0d8;
+        color: #3c763d;
+    }
+</style>

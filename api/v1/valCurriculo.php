@@ -7,19 +7,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     require ('databaseManager/conectar.php');
 
     //PREPARA AS VARIÁVEIS COM O VALOR PASSADO PELOS PARÂMETROS
-    $nome = $_POST['nome'];
+    $ra = $_POST['ra'];
     $dataNasc = $_POST['dataNasc'];
 
-    function consultarTabela($conn, $nomeTabela){
-        // PREPARA A CONSULTA SQL PARA VERIFICAR SE O USUÁRIO EXISTE
-        $sql = "SELECT * FROM {$nomeTabela}";
+    // PREPARA A CONSULTA SQL PARA VERIFICAR SE O USUÁRIO EXISTE
+    $validacaoAl = "SELECT * FROM dados WHERE ra LIKE '$ra' AND dataNasc LIKE '$dataNasc'";
 
-        //EXECUTA A CONSULTA
-        $result = $conn->query($sql);
-
-        //RETORNA O RESULTADO DA CONSULTA
-        return $result;
-    }
+    //EXECUTA A CONSULTA
+    $result = $conn->query($validacaoAl);
 
     //VERIFICA SE O ALUNO EXISTE
     if($result->num_rows <= 0){
@@ -46,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // GERA UM NOME ÚNICO PARA O ARQUIVO
     $extensao = pathinfo($_FILES['arquivoCurriculo']['name'], PATHINFO_EXTENSION);
     $nomeArquivo = uniqid('', true) . '.' . $extensao;
-    $destino = __DIR__ . '/../../upload/' . $nomeArquivo;
+    $destino = _DIR_ . '/../../upload/' . $nomeArquivo;
 
     //MOVE O ARQUIVO PARA O DESTINO
     if (!move_uploaded_file($_FILES['arquivoCurriculo']['tmp_name'], $destino)) {
@@ -54,9 +49,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo json_encode(['error' => 'Erro ao enviar o arquivo.']);
         exit;
     }
+
+    //INSERE AS INFORMACOES DO CURRICULO AO BANCO DE DADOS
+    $cadCurriculo = "INSERT INTO curriculo () VALUES (?)";
+    $cadastro = $conn->prepare($cadCurriculo);
     
     //ARQUIVO ENVIADO COM SUCESSO
-    
     echo json_encode(['success' => 'Arquivo PDF enviado com sucesso.', 'nome_arquivo' => $nomeArquivo, 'teste' => 'http://'.$_SERVER['HTTP_HOST'].'/upload/'.$nomeArquivo]);
     
 }
