@@ -1,5 +1,8 @@
+
 <?php
 require('databaseManager/conectar.php'); // Arquivo que contém a conexão com o banco de dados
+
+if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 // Recebendo e sanitizando os dados do formulário
 $nome = $_POST['nome'];
@@ -9,22 +12,24 @@ $email = $_POST['email'];
 $data_nascimento = $_POST['dataNasc'];
 
 // Inserindo os dados no banco de dados usando prepared statements para evitar SQL Injection
-$sql = "INSERT INTO dados (nome, nomeCurso, telefone, email, dataNasc) VALUES (?, ?, ?, ?, ?)";
+$sql = "INSERT INTO dados (nome, telefone, email, dataNasc FROM curriculo INNER JOIN curso.nomeCurso ) VALUES (?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);
 
 if ($stmt) {
-    $stmt->bind_param("sisss", $nome, $curso, $telefone, $email, $data_nascimento);
+$stmt->bind_param("sisss", $nome, $curso, $telefone, $email, $data_nascimento);
 
-    if ($stmt->execute()) {
-        echo "Cadastro realizado com sucesso!";
-    } else {
-        echo "Erro ao cadastrar aluno: " . $stmt->error;
-    }
-
-    $stmt->close();
+if ($stmt->execute()) {
+    echo "Cadastro realizado com sucesso!";
 } else {
-    echo "Erro na preparação da consulta: " . $conn->error;
+    echo "Erro ao cadastrar aluno: " . $stmt->error;
+}
+
+$stmt->close();
+} else {
+echo "Erro na preparação da consulta: " . $conn->error;
 }
 
 $conn->close();
+
+}
 ?>
