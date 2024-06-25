@@ -1,62 +1,63 @@
 <?php
-// Função para obter a rota da URL
-function obterRota() {
-    $urlPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-    $rota = explode("/", trim($urlPath, '/'));
+//OBTÉM A ROTA DA URL
+function obterRota(){
+    $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    $rota = explode("/", trim($url, '/'));
 
-    // Define a rota 'home' se estiver vazia
+    //DEFINE A ROTA PADRÃO CASO ESTIVER VAZIA
     if (empty($rota[0])) {
-        $rota[0] = 'home';
+        $rota[0] = 'cadAluno';
     }
 
     return $rota[0];
 }
 
-// Função para incluir a página correspondente
-function incluirPagina($pagina) {
+//INCLUIR AS PÁGINAS RETORNADAS PELO OBTERROTA()
+function incluirPagina($pagina){
     $arquivoPagina = "pages/{$pagina}.html";
 
-    // Verifica se o arquivo da página existe
-    if (file_exists($arquivoPagina)) {
-        include $arquivoPagina;
-    } else {
-        // Exibe uma mensagem de erro se a página não for encontrada
+    //VERIFICA SE O ARQUIVO DA PÁGINA NÃO EXISTE
+    if (!file_exists($arquivoPagina)) {
         echo "Página não encontrada.";
+        return;
     }
+
+    include $arquivoPagina;
+
 }
 
-// Execução principal
+//EXECUTA A FUNÇÃO OBTERROTA()
 $rota = obterRota();
-$tituloPagina = ucfirst(str_replace('-', ' ', $rota)); // Define o título da página
+
+//DEFINE O TITULO DA PÁGINA
+$tituloPagina = ucfirst(str_replace('-', ' ', $rota));
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($tituloPagina); ?></title>
+    <link rel="stylesheet" href="/pages/css/style.css">
 </head>
 
 <body>
     <nav>
         <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/sobre-nos">Sobre nós</a></li>
-            <li><a href="/sobre-nos">Sobre nós</a></li>
-            
+            <li><a href="/">Cadastro de Aluno</a></li>
+            <li><a href="/gerenciamento-alunos">Gerenciamento de Alunos</a></li>
         </ul>
     </nav>
 
     <main>
         <?php incluirPagina($rota); ?>
     </main>
+    
     <footer>
         footer
     </footer>
 </body>
 
 </html>
-
-
