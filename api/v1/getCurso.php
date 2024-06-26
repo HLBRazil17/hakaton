@@ -7,15 +7,15 @@
     //CONECTA COMO BANCO DE DADOS
     require ('../../databaseManager/conectar.php');
 
-    //PREPARA A CONSULTA SQL
-    $getAlunos =  "SELECT * FROM dados";
+    //
+    $getCursos =  "SELECT * FROM curso";
 
     //
-    $result = $conn->query($getAlunos);
+    $result = $conn->query($getCursos);
 
     //VERIFICA SE A TABELA CONTÉM ALUNO
     if($result->num_rows <= 0){
-        throw new \Exception("Esse usuário não existe", 404);
+        throw new \Exception("A tabela não contém cursos cadastrados", 404);
     }
 
     $array = [];
@@ -23,9 +23,8 @@
     while ($row = $result->fetch_assoc()) {
         if($row['estado'] == 'a'){
             $array[] = [
-                'iduser' => $row['idUser'],
-                'nome' => $row['nome'],
-                'midia' => [$row['nome']],
+                'idCurso' => $row['idCurso'],
+                'nomeCurso' => $row['nomeCurso'],
             ];
         }
     }

@@ -3,6 +3,9 @@
 //VERIFICA SE A REQUEST É UM (POST)
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+    //
+    header("Content-Type: application/json");
+
     //CONECTA COMO BANCO DE DADOS
     require ('../../databaseManager/conectar.php');
 
@@ -41,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // GERA UM NOME ÚNICO PARA O ARQUIVO
     $extensao = pathinfo($_FILES['arquivoCurriculo']['name'], PATHINFO_EXTENSION);
     $nomeArquivo = uniqid('', true) . '.' . $extensao;
-    $destino = _DIR_ . '/../../upload/' . $nomeArquivo;
+    $destino = __DIR__ . '/../../upload/' . $nomeArquivo;
 
     //MOVE O ARQUIVO PARA O DESTINO
     if (!move_uploaded_file($_FILES['arquivoCurriculo']['tmp_name'], $destino)) {

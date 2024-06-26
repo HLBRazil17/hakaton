@@ -2,6 +2,9 @@
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+    //
+    header("Content-Type: application/json");
+
     //CONECTA COMO BANCO DE DADOS
     require ('../../databaseManager/conectar.php');
 
@@ -13,23 +16,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dataNasc = $_POST['dataNasc'];
     $ra = $_POST['ra'];
 
-    // Inserindo os dados no banco de dados usando prepared statements para evitar SQL Injection
+    //PREPARA A CONSULTA SQL
     $sql = "INSERT INTO dados (nome, telefone, email, dataNasc, ra, cursoNome) VALUES (?,?,?,?,?,?)";
     $stmt = $conn->prepare($sql);
 
+    //VERIFICA A PREPARAÇÃO DO $SQL
     if (!$stmt) {
         http_response_code(500);
         json_decode(json_encode(array('error' => 'Erro na preparação da consulta: ')));
-    }
-
-    $stmt->bind_param("ssssss", $nome, $telefone, $email, $dataNasc, $ra, $curso);
-
-    if (!$stmt->execute()) {
-        echo "Erro ao cadastrar";
         exit;
     }
 
-    echo "Cadastro realizado com sucesso!";
+    //
+    $stmt->bind_param("ssssss", $nome, $telefone, $email, $dataNasc, $ra, $curso);
+
+    //VERIFICA A EFETUAÇÃO DO CADASTRO
+    if (!$stmt->execute()) {
+        http_response_code(500);
+        json_decode(json_encode(array('error' => 'Erro ao cadastrar ')));
+        exit;
+    }
+
+    //CADASTRO ENVIADO COM SUCESSO
+    echo json_encode(['success' => 'Cadastro realizado com sucesso.']);
 
 }
 ?>
