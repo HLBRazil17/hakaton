@@ -2,6 +2,8 @@
 //VERIFICA SE A REQUEST É UM (POST)
 // if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+    header("Content-Type: application/json");
+
     //CONECTA COMO BANCO DE DADOS
     require ('../../databaseManager/conectar.php');
 
@@ -20,7 +22,9 @@
 
     while ($row = $result->fetch_assoc()) {
         $array[] = [
-            'iduser' => $row['iduser'],
+            'iduser' => $row['idUser'],
+            'nome' => $row['nome'],
+            'midia' => [$row['nome']],
         ];
     }
 
