@@ -1,7 +1,7 @@
 <?php
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
+
     require ('../../databaseManager/conectar.php');
 
     // Recebendo e sanitizando os dados do formulário
@@ -17,24 +17,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "INSERT INTO dados (nome, telefone, email, dataNasc, ra, cursoNome) VALUES (?,?,?,?,?,?)";
     $stmt = $conn->prepare($sql);
 
-    if ($stmt) {
-        $stmt->bind_param("ssssss", $nome, $telefone, $email, $dataNasc, $ra, $curso);
-
-            if ($stmt->execute()) {
-                echo "Cadastro realizado com sucesso!";
-                exit;
-            }
-
-            if (!$stmt->execute()) {
-                echo "Erro ao cadastrar";
-            }
-
-        $stmt->close();
-    } else {
-        echo "Erro na preparação da consulta: " . $conn->error;
+    if (!$stmt) {
+        http_response_code(500);
+        json_decode(json_encode(array('error' => 'Erro na preparação da consulta: ')));
     }
 
-    $conn->close();
+
+    $stmt->bind_param("ssssss", $nome, $telefone, $email, $dataNasc, $ra, $curso);
+
+
+    if (!$stmt->execute()) {
+        echo "Erro ao cadastrar";
+        exit;
+    }
+
+
+    echo "Cadastro realizado com sucesso!";
 
 }
 ?>
