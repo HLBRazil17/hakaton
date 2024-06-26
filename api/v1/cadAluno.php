@@ -2,6 +2,7 @@
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+    //CONECTA COMO BANCO DE DADOS
     require ('../../databaseManager/conectar.php');
 
     //PREPARA AS VARIÁVEIS COM O VALOR PASSADO PELOS PARÂMETROS
@@ -21,15 +22,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         json_decode(json_encode(array('error' => 'Erro na preparação da consulta: ')));
     }
 
-
     $stmt->bind_param("ssssss", $nome, $telefone, $email, $dataNasc, $ra, $curso);
-
 
     if (!$stmt->execute()) {
         echo "Erro ao cadastrar";
         exit;
     }
-
 
     echo "Cadastro realizado com sucesso!";
 

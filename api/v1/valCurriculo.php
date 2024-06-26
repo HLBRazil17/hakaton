@@ -4,7 +4,7 @@
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     //CONECTA COMO BANCO DE DADOS
-    require ('databaseManager/conectar.php');
+    require ('../../databaseManager/conectar.php');
 
     //PREPARA AS VARIÁVEIS COM O VALOR PASSADO PELOS PARÂMETROS
     $ra = $_POST['ra'];
@@ -75,9 +75,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!$cadastro) {
         http_response_code(500);
         json_decode(json_encode(array('error' => 'Erro na preparação da consulta: ')));
+        exit;
     }
 
     $cadastro->bind_param("ssssss", $midia, $dataEnv, $user_id, $curso_id);
+
+    if (!$stmt->execute()) {
+        http_response_code(500);
+        json_decode(json_encode(array('error' => 'Erro ao cadastrar: ')));
+        exit;
+    }
     
     //ARQUIVO ENVIADO COM SUCESSO
     echo json_encode(['success' => 'Arquivo PDF enviado com sucesso.', 'nome_arquivo' => $nomeArquivo, 'teste' => 'http://'.$_SERVER['HTTP_HOST'].'/upload/'.$nomeArquivo]);
