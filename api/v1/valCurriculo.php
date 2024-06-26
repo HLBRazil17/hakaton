@@ -50,9 +50,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
+    //
+    $row = $result->fetch_assoc();
+
+    //OBTÉM O FUSO HORÁRIO 
+    $fusoHorario = new DateTimeZone('America/Sao_Paulo');
+
+    //OBTÉM A HORA E DATA ATUAL EM 'America/Sao_Paulo'
+    $dataHoraAtual = new DateTime('now', $fusoHorario);
+
+    //FORMATA A DATA E HORA 
+    $tempoFormatado = $dataHoraAtual->format('Y-m-d H:i:s');
+
+    //separar o link dos arquivos em , igual o midia
+    $midia = $nomeArquivo;
+    $dataEnv = $tempoFormatado;    ;
+    $user_id = $row['idUser'];
+    $curso_id = $_POST['curso_id'];
+
     //INSERE AS INFORMACOES DO CURRICULO AO BANCO DE DADOS
-    $cadCurriculo = "INSERT INTO curriculo () VALUES (?)";
+    $cadCurriculo = "INSERT INTO curriculo (midia, dataEnv, user_id, curso_id) VALUES (?,?,?,?)";
     $cadastro = $conn->prepare($cadCurriculo);
+
+    if (!$cadastro) {
+        http_response_code(500);
+        json_decode(json_encode(array('error' => 'Erro na preparação da consulta: ')));
+    }
+
+    $cadastro->bind_param("ssssss", $midia, $dataEnv, $user_id, $curso_id);
     
     //ARQUIVO ENVIADO COM SUCESSO
     echo json_encode(['success' => 'Arquivo PDF enviado com sucesso.', 'nome_arquivo' => $nomeArquivo, 'teste' => 'http://'.$_SERVER['HTTP_HOST'].'/upload/'.$nomeArquivo]);

@@ -4,11 +4,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     require ('../../databaseManager/conectar.php');
 
-    // Recebendo e sanitizando os dados do formulário
+    //PREPARA AS VARIÁVEIS COM O VALOR PASSADO PELOS PARÂMETROS
     $nome = $_POST['nome'];
     $curso = $_POST['nomeCurso'];
     $telefone = $_POST['telefone'];
-    echo $telefone;
     $email = $_POST['email'];
     $dataNasc = $_POST['dataNasc'];
     $ra = $_POST['ra'];
