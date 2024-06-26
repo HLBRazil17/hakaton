@@ -10,14 +10,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     //PREPARA AS VARIÁVEIS COM O VALOR PASSADO PELOS PARÂMETROS
     $nome = $_POST['nome'];
-    $curso = $_POST['nomeCurso'];
+    //$curso = $_POST['nomeCurso'];
     $telefone = $_POST['telefone'];
     $email = $_POST['email'];
     $dataNasc = $_POST['dataNasc'];
     $ra = $_POST['ra'];
 
     //PREPARA A CONSULTA SQL
-    $sql = "INSERT INTO dados (nome, telefone, email, dataNasc, ra, cursoNome) VALUES (?,?,?,?,?,?)";
+    $sql = "INSERT INTO dados (nome, telefone, email, dataNasc, ra) VALUES (?,?,?,?,?)";
     $stmt = $conn->prepare($sql);
 
     //VERIFICA A PREPARAÇÃO DO $SQL
@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     //
-    $stmt->bind_param("ssssss", $nome, $telefone, $email, $dataNasc, $ra, $curso);
+    $stmt->bind_param("sssss", $nome, $telefone, $email, $dataNasc, $ra);
 
     //VERIFICA A EFETUAÇÃO DO CADASTRO
     if (!$stmt->execute()) {
