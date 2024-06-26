@@ -1,26 +1,45 @@
-<div>
-    <div id="mensagensAviso"></div>
+<section class="container">
+    <div class="card-info">
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sit maxime necessitatibus alias error voluptatem
+        suscipit recusandae voluptatum harum consectetur. Ad accusamus magnam animi, asperiores explicabo exercitationem
+        at laudantium consequuntur dicta!]
+    </div>
 
-    <section>
-        <label for="nome">Ra:</label>
-        <input type="text" id="ra" name="ra" required>
+    <div class="form-group">
+        <div id="mensagensAviso"></div>
+    
+        <div class="form-group">
+            <label for="nome">Ra:</label>
+            <input type="text" id="ra" name="ra" required>
+        </div>
+    
+        <div class="form-group">
+            <label for="dataNascimento">Data de Nascimento:</label>
+            <input type="date" id="dataNascimento" name="dataNascimento" required>
+        </div>
+    
+        <div class="form-group">
+            <label>Enviar Curriculo:</label>
+            <div onclick="document.getElementById('envioCurriculo').click();" style="cursor: pointer;">
+                <span class="material-symbols-outlined">
+                    note_stack_add
+                </span>
+            </div>
+            <input type="file" name="arquivoCurriculo" id="envioCurriculo" accept="application/pdf" style="display: none;">
+        </div>
+    
+        <div class="form-group">
+            <button onclick="enviarArquivo()">Enviar Curriculo</button>
+        </div>
+    </div>
+</section>
 
-        <label for="dataNascimento">Data de Nascimento:</label>
-        <input type="date" id="dataNascimento" name="dataNascimento" required>
-
-        <input type="file" name="arquivoCurriculo" id="envioCurriculo" accept="application/pdf">
-        <div id="previaCurriculo"></div>
-
-        <button onclick="enviarArquivo()">Enviar</button>
-    </section>
-
-</div>
 
 
 <script>
     function mostrarAviso(mensagem, tipo = 'info') {
         const mensagensAviso = document.querySelector('#mensagensAviso');
-        mensagensAviso.innerHTML = <div class="aviso ${tipo}">${mensagem}</div>;
+        mensagensAviso.innerHTML = `<div class="aviso ${tipo}">${mensagem}</div>`;
     }
 
     function enviarArquivo() {
@@ -70,26 +89,3 @@
     }
 
 </script>
-
-<style>
-    .aviso {
-        padding: 10px;
-        margin-top: 10px;
-        border-radius: 5px;
-    }
-
-    .aviso.info {
-        background-color: #d9edf7;
-        color: #31708f;
-    }
-
-    .aviso.erro {
-        background-color: #f2dede;
-        color: #a94442;
-    }
-
-    .aviso.sucesso {
-        background-color: #dff0d8;
-        color: #3c763d;
-    }
-</style>

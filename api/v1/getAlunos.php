@@ -1,7 +1,8 @@
 <?php
 //VERIFICA SE A REQUEST É UM (POST)
-// if ($_SERVER["REQUEST_METHOD"] == "GET") {
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
+    //DEFINE O CABEÇALHO EM JSON
     header("Content-Type: application/json");
 
     //CONECTA COMO BANCO DE DADOS
@@ -10,7 +11,7 @@
     //PREPARA A CONSULTA SQL
     $getAlunos =  "SELECT * FROM dados";
 
-    //
+    //EXECUTA A CONSULTA
     $result = $conn->query($getAlunos);
 
     //VERIFICA SE A TABELA CONTÉM ALUNO
@@ -18,19 +19,25 @@
         throw new \Exception("Esse usuário não existe", 404);
     }
 
-    $array = [];
+    //ARRAY $ALUNOS
+    $alunos = [];
 
+    //RENDERIZA OS RESULTADOS DA CONSULTA
     while ($row = $result->fetch_assoc()) {
+        //RETORNA OS DETALHES DE ALUNOS SE FOREM 'ATIVOS'
         if($row['estado'] == 'a'){
-            $array[] = [
+            $alunos[] = [
                 'iduser' => $row['idUser'],
-                'nome' => $row['nome'],
-                'midia' => [$row['nome']],
+                'nome'   => $row['nome'],
+                'midia'  => [
+                    $row['nome']
+                ],
             ];
         }
     }
 
-    echo json_encode($array);
+    //CONVERTE A ARRAY PARA JSON
+    echo json_encode($alunos);
 
-// }
+}
 ?>

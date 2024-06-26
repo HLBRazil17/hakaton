@@ -2,7 +2,7 @@
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    //
+    //DEFINE O CABEÇALHO EM JSON
     header("Content-Type: application/json");
 
     //CONECTA COMO BANCO DE DADOS

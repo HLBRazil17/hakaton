@@ -1,5 +1,92 @@
-*{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+@import "./aviso.css";
+@import "./form-style.css";
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'DM Sans', sans-serif;
+}
+
+body {
+  display: grid;
+  grid-template-areas:
+    "nav main main"
+    "nav  main main"
+    "nav  main main"
+    "footer footer footer";
+  grid-template-columns: auto 1fr 1fr;
+  grid-template-rows: 1fr auto;
+  height: 100vh;
+  background: #F6F8FC;
+}
+
+li {
+  list-style: none;
+}
+
+nav {
+  grid-area: nav;
+  margin-right: 20px;
+}
+
+main {
+  display: flex;
+  grid-area: main;
+  padding: 10px;
+  width: 100%;
+  max-width: 1330px;
+  justify-content: center;
+  align-items: center;
+}
+
+footer {
+  grid-area: footer;
+  padding: 10px;
+}
+
+nav ul {
+  padding: 10px;
+}
+
+nav ul a {
+  text-decoration: none;
+  display: flex;
+  cursor: pointer;
+  height: 32px;
+  gap: 8px;
+  color: #001d35;
+}
+
+button{
+    cursor: pointer;
+    border: none;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: #1a73e8;
+    font-weight: 700;
+    color: white;
+    font-size: 15px;
+}
+
+.cadastro{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    font-weight: 700;
+    height: 50px;
+    background: rgb(194, 231, 255);
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+
+.cadastro a{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #001d35;
 }

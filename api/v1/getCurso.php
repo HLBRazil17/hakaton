@@ -1,16 +1,17 @@
 <?php
 //VERIFICA SE A REQUEST É UM (POST)
-// if ($_SERVER["REQUEST_METHOD"] == "GET") {
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
+    //DEFINE O CABEÇALHO EM JSON
     header("Content-Type: application/json");
 
     //CONECTA COMO BANCO DE DADOS
     require ('../../databaseManager/conectar.php');
 
-    //
+    //PREPARA A CONSULTA SQL
     $getCursos =  "SELECT * FROM curso";
 
-    //
+    //EXECUTA A CONSULTA
     $result = $conn->query($getCursos);
 
     //VERIFICA SE A TABELA CONTÉM ALUNO
@@ -18,18 +19,22 @@
         throw new \Exception("A tabela não contém cursos cadastrados", 404);
     }
 
-    $array = [];
+    //ARRAY $CURSOS
+    $cursos = [];
 
+    //RENDERIZA OS RESULTADOS DA CONSULTA
     while ($row = $result->fetch_assoc()) {
+        //RETORNA OS DETALHES DE CURSOS SE FOREM 'ATIVOS'
         if($row['estado'] == 'a'){
-            $array[] = [
-                'idCurso' => $row['idCurso'],
+            $cursos[] = [
+                'idCurso'   => $row['idCurso'],
                 'nomeCurso' => $row['nomeCurso'],
             ];
         }
     }
 
-    echo json_encode($array);
+    //CONVERTE A ARRAY PARA JSON
+    echo json_encode($cursos);
 
-// }
+}
 ?>

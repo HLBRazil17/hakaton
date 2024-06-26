@@ -1,48 +1,110 @@
-<form class="container" enctype="multipart/form-data">
-    <h1>Cadastro de Alunos</h1>asx
-    <div>
-        <label>Nome</label>
-        <input type="text" name="nomeUsuario" placeholder="Nome do aluno">
+<form class="container" id="formAluno" method="post">
+    <div class="card-info">
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sit maxime necessitatibus alias error voluptatem
+        suscipit recusandae voluptatum harum consectetur. Ad accusamus magnam animi, asperiores explicabo exercitationem
+        at laudantium consequuntur dicta!]
     </div>
-    <div>
-        <label>Email</label>
-        <input type="email" name="email" placeholder="Email">
-    </div>
-    <div>
-        <label>Ra:</label>
-        <input type="text" name="ra" placeholder="Nome do aluno">
-    </div>
-    <div>
-        <label>Telefone</label>
-        <input type="number" name="telefone" placeholder="Telefone">
-    </div>    
-    <div>
-        <label>Data de nascimento</label>
-        <input type="date" name="dataNascimento">
-    </div>
-    <div>
-        <label for="cursos">Escolha um curso:</label>
-        <select id="cursos" name="cursos">
-            <option value="Administração">Administração</option>
-            <option value="comercio-exterior">Comércio Exterior</option>
-            <option value="Contabilidade">Contabilidade</option>
-            <option value="desenvolvimento-sistemas">Desenvolvimento de Sistemas</option>
-            <option value="design-grafico">Design Gráfico</option>
-            <option value="enfermagem">Enfermagem</option>
-            <option value="ensino-medio">Ensino Médio</option>
-            <option value="marketing">Marketing</option>
-            <option value="recursos-humanos">Recursos Humanos</option>
-            <option value="novotec-administracao">Novotec - Administração</option>
-            <option value="novotec-contabilidade">Novotec - Contabilidade</option>
-            <option value="novotec-desenvolvimento-sistemas">Novotec - Desenvolvimento de Sistemas</option>
-            <option value="novotec-marketing">Novotec - Marketing</option>
-            <option value="novotec-meioambiente">Novotec - Meio Ambiente</option>
-        </select>
-    </div>
+
+    <div class="form-group">
+        <div id="mensagensAviso"></div>
     
-    <div>
-        <input type="submit" value="Cadastrar">
+        <h1>Cadastro de Alunos</h1>
+        <div class="form-group">
+            <label>Nome</label>
+            <input type="text" name="nome" id="nome" placeholder="Nome do aluno" value="">
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email" id="email" placeholder="Email" value="">
+        </div>
+        <div class="form-group">
+            <label>Ra:</label>
+            <input type="text" name="ra" id="ra" placeholder="Nome do aluno" value="">
+        </div>
+        <div class="form-group">
+            <label>Telefone</label>
+            <input type="text" name="telefone" id="telefone" placeholder="Telefone" value="">
+        </div>
+        <div class="form-group">
+            <label>Data de nascimento</label>
+            <input type="date" name="dataNasc" id="dataNasc" value="">
+        </div>
+    
+        <div class="form-group">
+            <label for="cursos">Escolha um curso:</label>
+            <select id="cursos" name="nomeCurso">
+                <option value="" style="display: none;" selected>Selecione curso...</option>
+            </select>
+        </div>
+    
+        <div class="form-group">
+            <input type="submit" value="Cadastrar">
+        </div>
     </div>
 </form>
 
-<script></script>
+<script>
+
+    const nome = document.querySelector('#nome').value;
+    const email = document.querySelector('#email').value;
+    const ra = document.querySelector('#ra').value;
+    const telefone = document.querySelector('#telefone').value;
+    const dataNasc = document.querySelector('#dataNasc').value;
+
+
+    function mostrarAviso(mensagem, tipo = 'info') {
+        const mensagensAviso = document.querySelector('#mensagensAviso');
+        mensagensAviso.innerHTML = `<div class="aviso ${tipo}">${mensagem}</div>`;
+    }
+
+    function getApiCurso() {
+        // Fazer solicitação GET para obter dados do servidor PHP
+        fetch('http://localhost:8080/api/v1/getCurso.php', {
+            method: 'GET',
+            credentials: 'include'
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                const selectCurso = document.getElementById('cursos');
+
+                data.forEach(curso => {
+                    const option = document.createElement('option');
+                    option.value = curso.nomeCurso;
+                    option.textContent = curso.nomeCurso;
+                    selectCurso.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+            });
+    }
+    getApiCurso();
+
+    document.getElementById('formAluno').addEventListener('submit', function (event) {
+        event.preventDefault(); // Evita o envio padrão do formulário
+
+        // Captura os dados do formulário
+        const formData = new FormData(this);
+
+        // Faz o POST dos dados para a API de cadastro de aluno
+        fetch('http://localhost:8080/api/v1/cadAluno.php', {
+            method: 'POST',
+            body: formData,
+            credentials: 'include'
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Cadastro realizado:', data);
+                mostrarAviso('Dados enviados com sucesso!', 'sucesso');
+
+                this.reset();
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert('Erro ao cadastrar aluno. Por favor, tente novamente.');
+            });
+    });
+</script>

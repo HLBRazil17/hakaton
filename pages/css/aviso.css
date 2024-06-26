@@ -1,0 +1,24 @@
+#mensagensAviso{
+    width: 100%;
+}
+.aviso {
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.aviso.info {
+    background-color: #d9edf7;
+    color: #31708f;
+}
+
+.aviso.erro {
+    background-color: #f2dede;
+    color: #a94442;
+}
+
+.aviso.sucesso {
+    background-color: #dff0d8;
+    color: #3c763d;
+}
