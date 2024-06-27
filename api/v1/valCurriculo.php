@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $numCurriculos = $rowCount['num_curriculos'];
 
     // VERIFICA SE JÁ EXISTEM 2 CURRÍCULOS ASSOCIADOS AO USUÁRIO E CURSO
-    if ($numCurriculos > 2) {
+    if ($numCurriculos >= 2) {
         http_response_code(400);
         echo json_encode(['error' => 'O usuário já possui 2 currículos registrados para este curso'], JSON_UNESCAPED_UNICODE);
         exit;

@@ -1,6 +1,4 @@
-<section id="aluno-detalhes">
-
-    <button onclick="deleteCurriculo(1)">Deletar Currículo</button>
+<section id="aluno-detalhes" class="container">
 </section>
 
 <script>
@@ -25,6 +23,7 @@
             .then(data => {
                 console.log(data);
                 renderAlunoDetalhes(data[0]);
+                createCurriculosTable(data);
             })
             .catch(error => {
                 console.error('Erro:', error);
@@ -40,14 +39,66 @@
         alunoDiv.className = 'aluno';
 
         const alunoContent = `
-            <p><strong>ID:</strong> ${aluno.iduser}</p>
-            <p><strong>Nome:</strong> ${aluno.nome}</p>
-            <p><strong>RA:</strong> ${aluno.ra}</p>
-            <p><strong>Email:</strong> ${aluno.email}</p>
+        <div class="form-group">
+            <label>Nome:</label>
+            <input type="text" value="${aluno.nome}">
+        </div>
+        <div class="form-group">
+            <label>Ra:</label>
+            <input type="text" value="${aluno.ra}">
+        </div>
+        <div class="form-group">
+            <label>Email:</label>
+            <input type="text" value="${aluno.email}">
+        </div>
+        <div class="form-group">
+            <label>Telefone:</label>
+            <input type="text" value="${aluno.telefone}">
+        </div>
+        <button>Enviar</button>
         `;
 
         alunoDiv.innerHTML = alunoContent;
         alunoDetalhes.appendChild(alunoDiv);
+    }
+
+    // Função para criar a tabela de currículos
+    function createCurriculosTable(data) {
+        const alunoDetalhes = document.getElementById('aluno-detalhes');
+        const table = document.createElement('table');
+        table.className = 'curriculos-table';
+
+        // Cabeçalho da tabela
+        const headerRow = table.insertRow();
+        const headers = ['ID', 'Curso', 'Ações'];
+        headers.forEach(headerText => {
+            const header = document.createElement('th');
+            header.textContent = headerText;
+            headerRow.appendChild(header);
+        });
+
+        // Corpo da tabela (linhas de currículos)
+        data.forEach(curriculo => {
+            const row = table.insertRow();
+            row.className = 'curriculo-row';
+
+            // Colunas da tabela
+            const idCell = row.insertCell();
+            idCell.textContent = curriculo.curriculo.idCurriculo;
+
+            const cursoCell = row.insertCell();
+            cursoCell.textContent = curriculo.curriculo.nomeCurso;
+
+            const actionCell = row.insertCell();
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Excluir';
+            deleteButton.addEventListener('click', () => {
+                deleteCurriculo(curriculo.curriculo.idCurriculo);
+            });
+            actionCell.appendChild(deleteButton);
+        });
+
+        alunoDetalhes.appendChild(table);
     }
 
     function deleteCurriculo(idCurriculo) {
@@ -58,7 +109,7 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert(data.success);
+                    window.location.reload()
                 } else {
                     alert(data.error);
                 }

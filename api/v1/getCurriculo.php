@@ -9,7 +9,7 @@ require('../../databaseManager/conectar.php');
 $idUser = $_GET['idUser'];
 
 //PREPARA A CONSULTA SQL
-$sql = "SELECT dados.idUser as user_id, dados.nome, dados.ra, dados.email, curriculo.idCurriculo, curriculo.midia, curriculo.curso_id, curso.nomeCurso
+$sql = "SELECT dados.idUser as user_id, dados.nome, dados.ra, dados.telefone, dados.email, curriculo.idCurriculo, curriculo.midia, curriculo.curso_id, curso.nomeCurso
         FROM dados
         LEFT JOIN curriculo ON dados.idUser = curriculo.user_id
         LEFT JOIN curso ON curso.idCurso = curriculo.curso_id
@@ -27,6 +27,7 @@ while ($row = $result->fetch_assoc()) {
         'nome'        => $row['nome'],
         'ra'          => $row['ra'],
         'email'       => $row['email'],
+        'telefone'    => $row['telefone'],
         'curriculo' => $row['idCurriculo'] ? [
             'idCurriculo' => $row['idCurriculo'],
             'midia'       => $row['midia'],

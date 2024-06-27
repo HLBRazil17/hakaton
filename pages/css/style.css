@@ -72,7 +72,6 @@ nav:hover{
 }
 
 nav:hover ul li{
-  margin-left: 10px;
   margin-right: 10px;
 }
 
@@ -208,7 +207,7 @@ td span{
   -webkit-box-orient: vertical;
 }
 
-input{
+input, select{
   border-radius: 8px;
   padding: 12px;
   border: 2px solid #EDEFF1;
