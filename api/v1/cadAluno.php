@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //VERIFICA A PREPARAÇÃO DO $SQL
     if (!$stmt) {
         http_response_code(500);
-        json_decode(json_encode(array('error' => 'Erro na preparação da consulta: ')));
+        json_encode(['error' => 'Erro na preparação da consulta: '], JSON_UNESCAPED_UNICODE);
         exit;
     }
 
@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //VERIFICA A EFETUAÇÃO DO CADASTRO
     if (!$stmt->execute()) {
         http_response_code(500);
-        json_decode(json_encode(array('error' => 'Erro ao cadastrar ')));
+        json_encode(['error' => 'Erro ao cadastrar '], JSON_UNESCAPED_UNICODE);
         exit;
     }
 
@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //VERIFICA A PREPARAÇÃO DO $SQL
     if (!$stmt) {
         http_response_code(500);
-        json_decode(json_encode(array('error' => 'Erro na preparação da consulta: ')));
+        json_encode(['error' => 'Erro na preparação da consulta: '], JSON_UNESCAPED_UNICODE);
         exit;
     }
 
@@ -65,12 +65,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //VERIFICA A EFETUAÇÃO DO CADASTRO
     if (!$stmt->execute()) {
         http_response_code(500);
-        json_decode(json_encode(array('error' => 'Erro ao cadastrar ')));
+        json_encode(['error' => 'Erro ao cadastrar '], JSON_UNESCAPED_UNICODE);
         exit;
     }
 
     //CADASTRO ENVIADO COM SUCESSO
-    echo json_encode(['success' => 'Cadastro realizado com sucesso.']);
+    echo json_encode(['success' => 'Cadastro realizado com sucesso.'], JSON_UNESCAPED_UNICODE);
 
 }
 ?>

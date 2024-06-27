@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     }
 
     //CONVERTE A ARRAY PARA JSON
-    echo json_encode($cursos);
+    echo json_encode($cursos, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 
 }
 ?>

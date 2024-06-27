@@ -5,17 +5,17 @@
         at laudantium consequuntur dicta!]
     </div>
 
-    <form class="form-group" method="post" action="/api/v1/valCurriculo.php" enctype="multipart/form-data">
+    <form class="form-group" method="post" enctype="multipart/form-data" action="/api/v1/valCurriculo.php">
         <div id="mensagensAviso"></div>
 
         <div class="form-group">
             <label for="nome">Ra:</label>
-            <input type="text" id="ra" name="ra" required>
+            <input type="text" id="ra" name="ra" >
         </div>
 
         <div class="form-group">
             <label for="dataNasc">Data de Nascimento:</label>
-            <input type="date" id="dataNasc" name="dataNasc" required>
+            <input type="date" id="dataNasc" name="dataNasc" >
         </div>
 
         <div class="form-group">
@@ -50,51 +50,55 @@
         mensagensAviso.innerHTML = `<div class="aviso ${tipo}">${mensagem}</div>`;
     }
 
-    // function enviarArquivo() {
-    //     const ra = document.querySelector('#ra').value;
-    //     const dataNascimento = document.querySelector('#dataNascimento').value;
-    //     const envioCurriculo = document.querySelector('#envioCurriculo');
-    //     const arquivo = envioCurriculo.files[0];
+    function enviarArquivo() {
+        event.preventDefault();
+        
+        const ra = document.querySelector('#ra').value;
+        const dataNascimento = document.querySelector('#dataNasc').value;
+        const cursoNome = document.querySelector('#cursos').value;
+        const envioCurriculo = document.querySelector('#envioCurriculo');
+        const arquivo = envioCurriculo.files[0];
 
-    //     if (!arquivo) {
-    //         mostrarAviso('Por favor, selecione um arquivo Válido.');
-    //         return;
-    //     }
+        if (!arquivo) {
+            mostrarAviso('Por favor, selecione um arquivo Válido.');
+            return;
+        }
 
-    //     if (!ra) {
-    //         mostrarAviso('Por favor, insira seu nome.');
-    //         return;
-    //     }
+        if (!ra) {
+            mostrarAviso('Por favor, insira seu nome.');
+            return;
+        }
 
-    //     if (!dataNascimento) {
-    //         mostrarAviso('Por favor, insira sua data de nascimento.');
-    //         return;
-    //     }
+        if (!dataNascimento) {
+            mostrarAviso('Por favor, insira sua data de nascimento.');
+            return;
+        }
 
-    //     const formData = new FormData();
-    //     formData.append('ra', ra);
-    //     formData.append('dataNascimento', dataNascimento);
-    //     formData.append('arquivoCurriculo', arquivo);
+        const formData = new FormData();
+        formData.append('ra', ra);
+        formData.append('dataNasc', dataNascimento);
+        formData.append('arquivoCurriculo', arquivo);
+        formData.append('cursoNome', cursoNome);
 
-    //     fetch('http://localhost:8080/api/v1/valCurriculo.php', {
-    //         method: 'POST',
-    //         body: formData
-    //     })
-    //         .then(response => {
-    //             if (!response.ok) {
-    //                 throw new Error('Ocorreu um erro ao enviar o arquivo.');
-    //             }
-    //             return response.json();
-    //         })
-    //         .then(data => {
-    //             console.log('Resposta do servidor:', data);
-    //             mostrarAviso('Dados enviados com sucesso!', 'sucesso');
-    //         })
-    //         .catch(error => {
-    //             console.error('Erro ao enviar os dados:', error);
-    //             mostrarAviso('Erro ao enviar os dados. Por favor, tente novamente.', 'erro');
-    //         });
-    // }
+        fetch('http://localhost:8080/api/v1/valCurriculo.php', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Ocorreu um erro ao enviar o arquivo.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Resposta do servidor:', data);
+                mostrarAviso('Dados enviados com sucesso!', 'sucesso');
+            })
+            .catch(error => {
+                console.error('Erro ao enviar os dados:', error);
+                mostrarAviso('Erro ao enviar os dados. Por favor, tente novamente.', 'erro');
+            });
+    }
 
     function getApiCurso() {
         // Fazer solicitação GET para obter dados do servidor PHP

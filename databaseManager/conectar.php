@@ -1,6 +1,6 @@
 <?php
 //VARIÁVEIS PARA CONECTAR AO BANCO DE DADOS
-$servername = "localhost:3308";
+$servername = "localhost:3306";
 $username = "root";
 $password = "etec2023";
 $dbname = "curriculo";

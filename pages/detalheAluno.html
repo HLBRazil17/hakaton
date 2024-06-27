@@ -1,18 +1,18 @@
 <section id="aluno-detalhes"></section>
 
 <script>
-// Obtendo a URL atual
-const url = window.location.href;
+    // Obtendo a URL atual
+    const url = window.location.href;
 
-// Usando o URLSearchParams para obter os parâmetros da URL
-const params = new URLSearchParams(new URL(url).search);
+    // Usando o URLSearchParams para obter os parâmetros da URL
+    const params = new URLSearchParams(new URL(url).search);
 
-// Obtendo o valor do parâmetro 'iduser'
-const alunoId = params.get('idUser');
+    // Obtendo o valor do parâmetro 'iduser'
+    const alunoId = params.get('idUser');
 
-function getApiAluno() {
+    function getApiAluno() {
         // Fazer solicitação GET para obter dados do servidor PHP
-        fetch(`http://localhost:8080/api/v1/detalheAluno.php?idUser=${alunoId}`, {
+        fetch(`http://localhost:8080/api/v1/getCurriculo.php?idUser=${alunoId}`, {
             method: 'GET',
             credentials: 'include'
         })
@@ -29,15 +29,14 @@ function getApiAluno() {
     }
     getApiAluno();
 
-     // Função para renderizar os detalhes do aluno
-     function renderAlunoDetalhes(aluno) {
+    // Função para renderizar os detalhes do aluno
+    function renderAlunoDetalhes(aluno) {
         const alunoDetalhes = document.getElementById('aluno-detalhes');
 
         const alunoDiv = document.createElement('div');
         alunoDiv.className = 'aluno';
 
         const alunoContent = `
-            <h2>Informações do Aluno</h2>
             <p><strong>ID:</strong> ${aluno.iduser}</p>
             <p><strong>Nome:</strong> ${aluno.nome}</p>
             <p><strong>RA:</strong> ${aluno.ra}</p>
@@ -50,31 +49,3 @@ function getApiAluno() {
 
 
 </script>
-
-<style>
-    #aluno-detalhes {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-.aluno {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 300px;
-}
-
-.aluno h2 {
-    margin-top: 0;
-    color: #333;
-}
-
-.aluno p {
-    margin: 5px 0;
-    color: #555;
-}
-</style>

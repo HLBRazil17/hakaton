@@ -37,6 +37,6 @@ while ($row = $result->fetch_assoc()) {
 }
 
 //CONVERTE A ARRAY PARA JSON
-echo json_encode($aluno);
+echo json_encode($aluno, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 
 ?>

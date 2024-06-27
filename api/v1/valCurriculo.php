@@ -24,10 +24,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         throw new \Exception("Esse usuário não existe", 404);
     }
 
+    //
+    $row = $result->fetch_assoc();
+
+    $user_id = $row['idUser'];
+    $curso_id = $_POST['cursoNome'];
+
+    // CONSULTA SQL PARA CONTAR OS CURRÍCULOS DO USUÁRIO NO CURSO
+    $curriculos = "SELECT COUNT(*) AS num_curriculos FROM curriculo WHERE user_id = $user_id AND curso_id = $curso_id";
+
+    // EXECUTA A CONSULTA DE CONTAGEM
+    $resultCount = $conn->query($curriculos);
+
+    if (!$resultCount) {
+        http_response_code(500);
+        echo json_encode(['error' => 'Erro na preparação da consulta: '], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    //OBTÉM O NÚMERO DE CURRÍCULOS ASSOCIADOS
+    $rowCount = $resultCount->fetch_assoc();
+    $numCurriculos = $rowCount['num_curriculos'];
+
+    // VERIFICA SE JÁ EXISTEM 2 CURRÍCULOS ASSOCIADOS AO USUÁRIO E CURSO
+    if ($numCurriculos > 2) {
+        http_response_code(400);
+        echo json_encode(['error' => 'O usuário já possui 2 currículos registrados para este curso'], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
     //VALIDA SE O ARQUIVO É UM PDF
     if ($_FILES['arquivoCurriculo']['type'] != 'application/pdf') {
         http_response_code(400);
-        echo json_encode(['error' => 'Envie um arquivo PDF válido.']);
+        echo json_encode(['error' => 'Envie um arquivo PDF válido.'], JSON_UNESCAPED_UNICODE);
         exit;
     }
 
@@ -37,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //VERIFICA O TAMANHO DO ARQUIVO
     if ($_FILES['arquivoCurriculo']['size'] > $tamanhoMaximo) {
         http_response_code(400);
-        echo json_encode(['error' => 'O arquivo PDF deve ter no máximo 5 MB.']);
+        echo json_encode(['error' => 'O arquivo PDF deve ter no máximo 5 MB.'], JSON_UNESCAPED_UNICODE);
         exit;
     }
 
@@ -49,12 +78,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //MOVE O ARQUIVO PARA O DESTINO
     if (!move_uploaded_file($_FILES['arquivoCurriculo']['tmp_name'], $destino)) {
         http_response_code(500);
-        echo json_encode(['error' => 'Erro ao enviar o arquivo.']);
+        echo json_encode(['error' => 'Erro ao enviar o arquivo.'], JSON_UNESCAPED_UNICODE);
         exit;
     }
 
-    //
-    $row = $result->fetch_assoc();
 
     //OBTÉM O FUSO HORÁRIO 
     $fusoHorario = new DateTimeZone('America/Sao_Paulo');
@@ -68,8 +95,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //separar o link dos arquivos em , igual o midia
     $midia = 'http://'.$_SERVER['HTTP_HOST'].'/upload/'.$nomeArquivo;
     $dataEnv = $tempoFormatado;    ;
-    $user_id = $row['idUser'];
-    $curso_id = $_POST['cursoNome'];
 
     //INSERE AS INFORMACOES DO CURRICULO AO BANCO DE DADOS
     $cadCurriculo = "INSERT INTO curriculo (midia, dataEnv, user_id, curso_id) VALUES (?,?,?,?)";
@@ -78,7 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //
     if (!$cadastro) {
         http_response_code(500);
-        json_decode(json_encode(array('error' => 'Erro na preparação da consulta: ')));
+        json_encode(['error' => 'Erro na preparação da consulta: '], JSON_UNESCAPED_UNICODE);
         exit;
     }
 
@@ -88,11 +113,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //
     if (!$cadastro->execute()) {
         http_response_code(500);
-        json_decode(json_encode(array('error' => 'Erro ao cadastrar: ')));
+        echo json_encode(['Error' => 'Erro ao cadastrar'], JSON_UNESCAPED_UNICODE);
         exit;
     }
     
     //ARQUIVO ENVIADO COM SUCESSO
-    echo json_encode(['success' => 'Arquivo PDF enviado com sucesso.']);
+    echo json_encode(['success' => 'Arquivo PDF enviado com sucesso.'], JSON_UNESCAPED_UNICODE);
     
 }
