@@ -1,8 +1,7 @@
 <?php
 
 //OBTÉM A ROTA DA URL
-function obterRota()
-{
+function obterRota(){
     $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     $rota = explode("/", trim($url, '/'));
 
@@ -15,8 +14,8 @@ function obterRota()
 }
 
 //INCLUI AS PÁGINAS RETORNADAS PELO OBTERROTA()
-function incluirPagina($pagina)
-{
+function incluirPagina($pagina){
+    //
     $arquivoPagina = "pages/{$pagina}.html";
 
     //VERIFICA SE O ARQUIVO DA PÁGINA NÃO EXISTE

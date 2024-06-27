@@ -1,4 +1,4 @@
-<form class="container" id="formAluno" method="post" action="/api/v1/cadAluno.php">
+<form class="container" id="formAluno" method="post">
     <div class="card-info">
         Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sit maxime necessitatibus alias error voluptatem
         suscipit recusandae voluptatum harum consectetur. Ad accusamus magnam animi, asperiores explicabo exercitationem
@@ -7,8 +7,7 @@
 
     <div class="form-group">
         <div id="mensagensAviso"></div>
-    
-        <h1>Cadastro de Alunos</h1>
+
         <div class="form-group">
             <label>Nome</label>
             <input type="text" name="nome" id="nome" placeholder="Nome do aluno" value="">
@@ -29,14 +28,14 @@
             <label>Data de nascimento</label>
             <input type="date" name="dataNasc" id="dataNasc" value="">
         </div>
-    
+
         <div class="form-group">
             <label for="cursos">Escolha um curso:</label>
-            <select id="cursos" name="nomeCurso">
+            <select id="cursos" name="cursoNome">
                 <option value="" style="display: none;" selected>Selecione curso...</option>
             </select>
         </div>
-    
+
         <div class="form-group">
             <input type="submit" value="Cadastrar">
         </div>
@@ -72,7 +71,7 @@
 
                 data.forEach(curso => {
                     const option = document.createElement('option');
-                    option.value = curso.nomeCurso;
+                    option.value = curso.idCurso;
                     option.textContent = curso.nomeCurso;
                     selectCurso.appendChild(option);
                 });
@@ -83,5 +82,28 @@
     }
     getApiCurso();
 
-   
+    document.getElementById('formAluno').addEventListener('submit', function (event) {
+        event.preventDefault(); // Evita o envio padrão do formulário
+
+        // Captura os dados do formulário
+        const formData = new FormData(this);
+
+        // Faz o POST dos dados para a API de cadastro de aluno
+        fetch('http://localhost:8080/api/v1/cadAluno.php', {
+            method: 'POST',
+            body: formData,
+            credentials: 'include'
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Cadastro realizado:', data);
+                mostrarAviso('Dados enviados com sucesso!', 'sucesso');
+
+                this.reset();
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert('Erro ao cadastrar aluno. Por favor, tente novamente.');
+            });
+    });
 </script>

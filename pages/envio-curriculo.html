@@ -5,19 +5,26 @@
         at laudantium consequuntur dicta!]
     </div>
 
-    <div class="form-group">
+    <form class="form-group" method="post" action="/api/v1/valCurriculo.php" enctype="multipart/form-data">
         <div id="mensagensAviso"></div>
-    
+
         <div class="form-group">
             <label for="nome">Ra:</label>
             <input type="text" id="ra" name="ra" required>
         </div>
-    
+
         <div class="form-group">
-            <label for="dataNascimento">Data de Nascimento:</label>
-            <input type="date" id="dataNascimento" name="dataNascimento" required>
+            <label for="dataNasc">Data de Nascimento:</label>
+            <input type="date" id="dataNasc" name="dataNasc" required>
         </div>
-    
+
+        <div class="form-group">
+            <label for="cursos">Escolha um curso:</label>
+            <select id="cursos" name="cursoNome">
+                <option value="" style="display: none;" selected>Selecione curso...</option>
+            </select>
+        </div>
+
         <div class="form-group">
             <label>Enviar Curriculo:</label>
             <div onclick="document.getElementById('envioCurriculo').click();" style="cursor: pointer;">
@@ -25,13 +32,14 @@
                     note_stack_add
                 </span>
             </div>
-            <input type="file" name="arquivoCurriculo" id="envioCurriculo" accept="application/pdf" style="display: none;">
+            <input type="file" name="arquivoCurriculo" id="envioCurriculo" accept="application/pdf"
+                style="display: none;">
         </div>
-    
+
         <div class="form-group">
             <button onclick="enviarArquivo()">Enviar Curriculo</button>
         </div>
-    </div>
+    </form>
 </section>
 
 
@@ -42,50 +50,76 @@
         mensagensAviso.innerHTML = `<div class="aviso ${tipo}">${mensagem}</div>`;
     }
 
-    function enviarArquivo() {
-        const ra = document.querySelector('#ra').value;
-        const dataNascimento = document.querySelector('#dataNascimento').value;
-        const envioCurriculo = document.querySelector('#envioCurriculo');
-        const arquivo = envioCurriculo.files[0];
+    // function enviarArquivo() {
+    //     const ra = document.querySelector('#ra').value;
+    //     const dataNascimento = document.querySelector('#dataNascimento').value;
+    //     const envioCurriculo = document.querySelector('#envioCurriculo');
+    //     const arquivo = envioCurriculo.files[0];
 
-        if (!arquivo) {
-            mostrarAviso('Por favor, selecione um arquivo Válido.');
-            return;
-        }
+    //     if (!arquivo) {
+    //         mostrarAviso('Por favor, selecione um arquivo Válido.');
+    //         return;
+    //     }
 
-        if (!ra) {
-            mostrarAviso('Por favor, insira seu nome.');
-            return;
-        }
+    //     if (!ra) {
+    //         mostrarAviso('Por favor, insira seu nome.');
+    //         return;
+    //     }
 
-        if (!dataNascimento) {
-            mostrarAviso('Por favor, insira sua data de nascimento.');
-            return;
-        }
+    //     if (!dataNascimento) {
+    //         mostrarAviso('Por favor, insira sua data de nascimento.');
+    //         return;
+    //     }
 
-        const formData = new FormData();
-        formData.append('ra', ra);
-        formData.append('dataNascimento', dataNascimento);
-        formData.append('arquivoCurriculo', arquivo);
+    //     const formData = new FormData();
+    //     formData.append('ra', ra);
+    //     formData.append('dataNascimento', dataNascimento);
+    //     formData.append('arquivoCurriculo', arquivo);
 
-        fetch('http://localhost:8080/api/v1/valCurriculo.php', {
-            method: 'POST',
-            body: formData
+    //     fetch('http://localhost:8080/api/v1/valCurriculo.php', {
+    //         method: 'POST',
+    //         body: formData
+    //     })
+    //         .then(response => {
+    //             if (!response.ok) {
+    //                 throw new Error('Ocorreu um erro ao enviar o arquivo.');
+    //             }
+    //             return response.json();
+    //         })
+    //         .then(data => {
+    //             console.log('Resposta do servidor:', data);
+    //             mostrarAviso('Dados enviados com sucesso!', 'sucesso');
+    //         })
+    //         .catch(error => {
+    //             console.error('Erro ao enviar os dados:', error);
+    //             mostrarAviso('Erro ao enviar os dados. Por favor, tente novamente.', 'erro');
+    //         });
+    // }
+
+    function getApiCurso() {
+        // Fazer solicitação GET para obter dados do servidor PHP
+        fetch('http://localhost:8080/api/v1/getCurso.php', {
+            method: 'GET',
+            credentials: 'include'
         })
             .then(response => {
-                if (!response.ok) {
-                    throw new Error('Ocorreu um erro ao enviar o arquivo.');
-                }
                 return response.json();
             })
             .then(data => {
-                console.log('Resposta do servidor:', data);
-                mostrarAviso('Dados enviados com sucesso!', 'sucesso');
+                console.log(data);
+                const selectCurso = document.getElementById('cursos');
+
+                data.forEach(curso => {
+                    const option = document.createElement('option');
+                    option.value = curso.idCurso;
+                    option.textContent = curso.nomeCurso;
+                    selectCurso.appendChild(option);
+                });
             })
             .catch(error => {
-                console.error('Erro ao enviar os dados:', error);
-                mostrarAviso('Erro ao enviar os dados. Por favor, tente novamente.', 'erro');
+                console.error('Erro:', error);
             });
     }
+    getApiCurso();
 
 </script>

@@ -29,6 +29,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $alunos[] = [
                 'iduser' => $row['idUser'],
                 'nome'   => $row['nome'],
+                'ra'     => $row['ra'],
+                'email'  => $row['email'],
                 'midia'  => [
                     $row['nome']
                 ],

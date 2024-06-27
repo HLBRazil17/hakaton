@@ -3,7 +3,7 @@
 //VERIFICA SE A REQUEST É UM (POST)
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    //
+    //DEFINE O CABEÇALHO EM JSON
     header("Content-Type: application/json");
 
     //CONECTA COMO BANCO DE DADOS
@@ -66,30 +66,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tempoFormatado = $dataHoraAtual->format('Y-m-d H:i:s');
 
     //separar o link dos arquivos em , igual o midia
-    $midia = $nomeArquivo;
+    $midia = 'http://'.$_SERVER['HTTP_HOST'].'/upload/'.$nomeArquivo;
     $dataEnv = $tempoFormatado;    ;
     $user_id = $row['idUser'];
-    $curso_id = $_POST['curso_id'];
+    $curso_id = $_POST['cursoNome'];
 
     //INSERE AS INFORMACOES DO CURRICULO AO BANCO DE DADOS
     $cadCurriculo = "INSERT INTO curriculo (midia, dataEnv, user_id, curso_id) VALUES (?,?,?,?)";
     $cadastro = $conn->prepare($cadCurriculo);
 
+    //
     if (!$cadastro) {
         http_response_code(500);
         json_decode(json_encode(array('error' => 'Erro na preparação da consulta: ')));
         exit;
     }
 
-    $cadastro->bind_param("ssssss", $midia, $dataEnv, $user_id, $curso_id);
+    //
+    $cadastro->bind_param("ssii", $midia, $dataEnv, $user_id, $curso_id);
 
-    if (!$stmt->execute()) {
+    //
+    if (!$cadastro->execute()) {
         http_response_code(500);
         json_decode(json_encode(array('error' => 'Erro ao cadastrar: ')));
         exit;
     }
     
     //ARQUIVO ENVIADO COM SUCESSO
-    echo json_encode(['success' => 'Arquivo PDF enviado com sucesso.', 'nome_arquivo' => $nomeArquivo, 'teste' => 'http://'.$_SERVER['HTTP_HOST'].'/upload/'.$nomeArquivo]);
+    echo json_encode(['success' => 'Arquivo PDF enviado com sucesso.']);
     
 }

@@ -1,1 +1,68 @@
-gerenciamento-alunos
+<table class="">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Ra</th>
+            <th>Midia</th>
+        </tr>
+    </thead>
+    <tbody  id="dadosAlunos">
+
+    </tbody>
+</table>
+<script>
+    function mostrarAviso(mensagem, tipo = 'info') {
+        const mensagensAviso = document.querySelector('#mensagensAviso');
+        mensagensAviso.innerHTML = `<div class="aviso ${tipo}">${mensagem}</div>`;
+    }
+
+    function mostrarAlunos(data) {
+        const dadosAlunos = document.querySelector('#dadosAlunos');
+
+        // Limpar div antes de inserir novos dados
+        dadosAlunos.innerHTML = '';
+
+        // Iterar sobre os dados e criar divs para cada aluno
+        data.forEach(aluno => {
+            const divAluno = document.createElement('tr');
+            divAluno.classList.add('aluno');
+
+            divAluno.innerHTML = `
+                <td><strong>ID:</strong> ${aluno.iduser}</td>
+                <td><strong>Nome:</strong> ${aluno.nome}</td>
+                <td><strong>Email:</strong> ${aluno.email}</td>
+                <td><strong>RA:</strong> ${aluno.ra}</td>
+                <td><a href="/detalheAluno?idUser=${aluno.iduser}">Detalhe Aluno</a></td>
+            `;
+
+            dadosAlunos.appendChild(divAluno);
+        });
+    }
+
+    function getApiAluno() {
+        // Fazer solicitação GET para obter dados do servidor PHP
+        fetch('http://localhost:8080/api/v1/getAlunos.php', {
+            method: 'GET',
+            credentials: 'include'
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro na requisição');
+                }
+                return response.json();
+            })
+            .then(data => {
+                mostrarAlunos(data); // Chamar função para mostrar os alunos na página
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                mostrarAviso('Erro ao carregar os dados dos alunos.', 'error');
+            });
+    }
+
+
+    getApiAluno();
+
+</script>

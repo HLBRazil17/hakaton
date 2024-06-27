@@ -1,0 +1,31 @@
+<script>
+// Obtendo a URL atual
+const url = window.location.href;
+
+// Usando o URLSearchParams para obter os parâmetros da URL
+const params = new URLSearchParams(new URL(url).search);
+
+// Obtendo o valor do parâmetro 'iduser'
+const userId = params.get('idUser');
+
+console.log(userId); // Aqui você terá o valor do parâmetro 'iduser'
+
+function getApiCurso() {
+        // Fazer solicitação GET para obter dados do servidor PHP
+        fetch(`http://localhost:8080/api/v1/detalheAluno.php?idUser=${userId}`, {
+            method: 'GET',
+            credentials: 'include'
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+            });
+    }
+    getApiCurso();
+
+</script>

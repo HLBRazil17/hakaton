@@ -37,7 +37,6 @@ main {
   width: 100%;
   max-width: 1330px;
   justify-content: center;
-  align-items: center;
 }
 
 footer {
@@ -58,35 +57,53 @@ nav ul a {
   color: #001d35;
 }
 
-button{
-    cursor: pointer;
-    border: none;
-    padding: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px;
-    background: #1a73e8;
-    font-weight: 700;
-    color: white;
-    font-size: 15px;
+button {
+  cursor: pointer;
+  border: none;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: #1a73e8;
+  font-weight: 700;
+  color: white;
+  font-size: 15px;
 }
 
-.cadastro{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-    font-weight: 700;
-    height: 50px;
-    background: rgb(194, 231, 255);
-    margin-bottom: 20px;
-    border-radius: 8px;
+.cadastro {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  font-weight: 700;
+  height: 50px;
+  background: rgb(194, 231, 255);
+  margin-bottom: 20px;
+  border-radius: 8px;
 }
 
-.cadastro a{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #001d35;
+.cadastro a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #001d35;
+}
+
+table {
+  width: 100%;
+}
+
+tr {
+  display: grid;
+  flex-direction: column;
+  grid-template-columns: 50px 200px 1fr 200px 1fr;
+  padding: 16px;
+  width: 100%;
+}
+
+th,
+td {
+  display: flex;
+  justify-content: start;
 }
