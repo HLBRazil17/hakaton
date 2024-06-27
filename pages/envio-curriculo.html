@@ -1,8 +1,8 @@
 <section class="container">
     <div class="card-info">
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sit maxime necessitatibus alias error voluptatem
-        suscipit recusandae voluptatum harum consectetur. Ad accusamus magnam animi, asperiores explicabo exercitationem
-        at laudantium consequuntur dicta!]
+        Este campo permite que os alunos enviem seus currículos para cada curso em que estão matriculados. Cada curso
+        permite o envio de até dois currículos diferentes, proporcionando aos alunos a flexibilidade de adaptar suas
+        candidaturas de acordo com os requisitos específicos de cada curso.
     </div>
 
     <form class="form-group" method="post" enctype="multipart/form-data" action="/api/v1/valCurriculo.php">
@@ -10,12 +10,12 @@
 
         <div class="form-group">
             <label for="nome">Ra:</label>
-            <input type="text" id="ra" name="ra" >
+            <input type="text" id="ra" name="ra">
         </div>
 
         <div class="form-group">
             <label for="dataNasc">Data de Nascimento:</label>
-            <input type="date" id="dataNasc" name="dataNasc" >
+            <input type="date" id="dataNasc" name="dataNasc">
         </div>
 
         <div class="form-group">
@@ -52,7 +52,7 @@
 
     function enviarArquivo() {
         event.preventDefault();
-        
+
         const ra = document.querySelector('#ra').value;
         const dataNascimento = document.querySelector('#dataNasc').value;
         const cursoNome = document.querySelector('#cursos').value;

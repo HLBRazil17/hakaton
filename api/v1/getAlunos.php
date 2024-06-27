@@ -31,9 +31,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 'nome'   => $row['nome'],
                 'ra'     => $row['ra'],
                 'email'  => $row['email'],
-                'midia'  => [
-                    $row['nome']
-                ],
             ];
         }
     }

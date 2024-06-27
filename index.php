@@ -1,7 +1,8 @@
 <?php
 
 //OBTÉM A ROTA DA URL
-function obterRota(){
+function obterRota()
+{
     $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     $rota = explode("/", trim($url, '/'));
 
@@ -14,7 +15,8 @@ function obterRota(){
 }
 
 //INCLUI AS PÁGINAS RETORNADAS PELO OBTERROTA()
-function incluirPagina($pagina){
+function incluirPagina($pagina)
+{
     //
     $arquivoPagina = "pages/{$pagina}.html";
 
@@ -48,16 +50,36 @@ $tituloPagina = ucfirst(str_replace('-', ' ', $rota));
 <body>
     <nav>
         <ul>
-            <li class="cadastro">
-                <a href="/cadastro-aluno">
-                    Cadastrar de Aluno
-                    <span class="material-symbols-outlined">
+            <div style="padding:10px">
+                <a href="/cadastro-aluno" class="cadastro">
+                    <span class="item-text">
+                        Cadastrar de Aluno
+                    </span>
+                    <span class="material-symbols-outlined icon-des">
                         add
                     </span>
                 </a>
+            </div>
+            <li>
+                <a href="/">
+                    <span class="material-symbols-outlined icon-des">
+                        account_box
+                    </span>
+                    <span class="item-text">
+                        Gerenciamento de Alunos
+                    </span>
+                </a>
             </li>
-            <li><a href="/">Gerenciamento de Alunos</a></li>
-            <li><a href="/envio-curriculo">Envio Curriculo</a></li>
+            <li>
+                <a href="/envio-curriculo">
+                    <span class="material-symbols-outlined icon-des">
+                        send
+                    </span>
+                    <span class="item-text">
+                        Envio Curriculo
+                    </span>
+                </a>
+            </li>
         </ul>
     </nav>
 
@@ -66,7 +88,7 @@ $tituloPagina = ucfirst(str_replace('-', ' ', $rota));
         incluirPagina($rota);
         ?>
     </main>
-<!-- 
+    <!-- 
     <footer>
         footer
     </footer> -->

@@ -21,7 +21,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     //VERIFICA SE O ALUNO EXISTE
     if($result->num_rows <= 0){
-        throw new \Exception("Esse usuário não existe", 404);
+        http_response_code(404);
+        echo json_encode(['error' => 'Esse usuário não existe '], JSON_UNESCAPED_UNICODE);
+        exit;
     }
 
     //

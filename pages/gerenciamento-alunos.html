@@ -1,14 +1,46 @@
 <table class="">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Email</th>
-            <th>Ra</th>
-            <th>Midia</th>
+            <th>
+                <span>
+                    ID
+                </span>
+            </th>
+            <th>
+                <span class="material-symbols-outlined">
+                    group
+                </span>
+                <span>
+                    Nome
+                </span>
+            </th>
+            <th>
+                <span class="material-symbols-outlined">
+                    mail
+                </span>
+                <span>
+                    Email
+                </span>
+            </th>
+            <th>
+                <span class="material-symbols-outlined">
+                    content_paste_search
+                </span>
+                <span>
+                    Ra
+                </span>
+            </th>
+            <th>
+                <span class="material-symbols-outlined">
+                    edit
+                </span>
+                <span>
+                    Edição
+                </span>
+            </th>
         </tr>
     </thead>
-    <tbody  id="dadosAlunos">
+    <tbody id="dadosAlunos">
 
     </tbody>
 </table>
@@ -30,11 +62,17 @@
             divAluno.classList.add('aluno');
 
             divAluno.innerHTML = `
-                <td><strong></strong> ${aluno.iduser}</td>
-                <td><strong></strong> ${aluno.nome}</td>
-                <td><strong></strong> ${aluno.email}</td>
-                <td><strong></strong> ${aluno.ra}</td>
-                <td><a href="/detalheAluno?idUser=${aluno.iduser}">Detalhe Aluno</a></td>
+                <td><span>${aluno.iduser}</span></td>
+                <td><span>${aluno.nome}</span></td>
+                <td><span>${aluno.email}</span></td>
+                <td><span>${aluno.ra}</span></td>
+                <td>
+                    <a href="/detalheAluno?idUser=${aluno.iduser}">
+                        <span class="material-symbols-outlined">
+                        open_in_new
+                        </span>
+                    </a>
+                </td>
             `;
 
             dadosAlunos.appendChild(divAluno);

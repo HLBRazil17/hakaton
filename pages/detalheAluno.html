@@ -1,4 +1,7 @@
-<section id="aluno-detalhes"></section>
+<section id="aluno-detalhes">
+
+    <button onclick="deleteCurriculo(1)">Deletar Currículo</button>
+</section>
 
 <script>
     // Obtendo a URL atual
@@ -47,5 +50,23 @@
         alunoDetalhes.appendChild(alunoDiv);
     }
 
-
+    function deleteCurriculo(idCurriculo) {
+        fetch(`http://localhost:8080/api/v1/deleteCurriculo.php?idCurriculo=${idCurriculo}`, {
+            method: 'DELETE',
+            credentials: 'include'
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.success);
+                } else {
+                    alert(data.error);
+                }
+                console.log('Resposta:', data);
+            })
+            .catch(error => {
+                console.error('Erro ao deletar currículo:', error);
+                alert('Erro ao deletar currículo. Por favor, tente novamente.');
+            });
+    }
 </script>
