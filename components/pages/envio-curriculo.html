@@ -5,7 +5,7 @@
         candidaturas de acordo com os requisitos específicos de cada curso.
     </div>
 
-    <form class="form-group" method="post" enctype="multipart/form-data" action="/api/v1/valCurriculo.php">
+    <form class="form-group" method="post" enctype="multipart/form-data">
         <div id="mensagensAviso"></div>
 
         <strong>
@@ -17,24 +17,28 @@
             <input type="text" id="ra" name="ra">
         </div>
 
-        <div class="form-group">
-            <label for="dataNasc">*Data de Nascimento:</label>
-            <input type="date" id="dataNasc" name="dataNasc">
-        </div>
+        <div class="row-card">
+            <div class="form-group">
+                <label for="dataNasc">*Data de Nascimento:</label>
+                <input type="date" id="dataNasc" name="dataNasc">
+            </div>
 
-        <div class="form-group">
-            <label for="cursos">*Escolha um curso:</label>
-            <select id="cursos" name="cursoNome">
-                <option value="" style="display: none;" selected>Selecione o curso...</option>
-            </select>
+            <div class="form-group">
+                <label for="cursos">*Escolha um curso:</label>
+                <select id="cursos" name="cursoNome">
+                    <option value="" style="display: none;" selected>Selecione o curso...</option>
+                </select>
+            </div>
         </div>
 
         <div class="form-group">
             <label>*Enviar Curriculo(PDF):</label>
-            <div onclick="document.getElementById('envioCurriculo').click();" style="cursor: pointer;">
+            <div class="row-card selecao-curriculo" onclick="document.getElementById('envioCurriculo').click();"
+                style="cursor: pointer;">
                 <span class="material-symbols-outlined">
                     note_stack_add
                 </span>
+                Selecionar Curriculo
             </div>
             <input type="file" name="arquivoCurriculo" id="envioCurriculo" accept="application/pdf"
                 style="display: none;">
@@ -52,6 +56,9 @@
     function mostrarAviso(mensagem, tipo = 'info') {
         const mensagensAviso = document.querySelector('#mensagensAviso');
         mensagensAviso.innerHTML = `<div class="aviso ${tipo}">${mensagem}</div>`;
+        setTimeout(() => {
+            mensagensAviso.innerHTML = ``;
+        }, 15000);
     }
 
     function enviarArquivo() {

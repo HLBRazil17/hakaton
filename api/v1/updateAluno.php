@@ -8,15 +8,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // Define o cabeçalho como JSON
     header("Content-Type: application/json");
-    
+    header("Access-Control-Allow-Origin: http://127.0.0.1:5173");
+    header("Access-Control-Allow-Credentials: true");
+
     // Limpa e valida os dados recebidos
-    $alunoId = $_POST['alunoId'];
+    $alunoId = $_POST['idUser'];
     $nome = $_POST['nome'];
     $telefone = $_POST['telefone'];
     $email = $_POST['email'];
     $dataNasc = $_POST['dataNasc'];
     $ra = $_POST['ra'];
-    $estado = $_POST['estado']; // Inclui o campo estado
+    $estado = $_POST['estado'];
 
     // Prepara a consulta SQL para atualizar dados do aluno
     $sql = "UPDATE dados SET nome=?, telefone=?, email=?, dataNasc=?, ra=?, estado=? WHERE idUser=?";

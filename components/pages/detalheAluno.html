@@ -1,6 +1,7 @@
 <section id="aluno-detalhes" class="container">
+    <h2>Edição Usuário</h2>
     <a href="http://localhost:8080/">
-        < Voltar</a>
+        < Voltar </a>
 </section>
 
 <script>
@@ -24,8 +25,8 @@
             })
             .then(data => {
                 console.log(data);
-                renderAlunoDetalhes(data[0]);
-                createCurriculosTable(data);
+                renderAlunoDetalhes(data);
+                createCurriculosTable(data.curriculos);
             })
             .catch(error => {
                 console.error('Erro:', error);
@@ -41,13 +42,15 @@
         alunoDiv.className = 'aluno';
 
         const alunoContent = `
-        <div class="form-group">
-            <label>Nome:</label>
-            <input type="text" value="${aluno.nome}" name="nome">
-        </div>
-        <div class="form-group">
-            <label>Ra:</label>
-            <input type="text" value="${aluno.ra}" name="ra">
+        <div class="row-card">
+            <div class="form-group">
+                <label>Nome:</label>
+                <input type="text" value="${aluno.nome}" name="nome">
+            </div>
+            <div class="form-group">
+                <label>Ra:</label>
+                <input type="text" value="${aluno.ra}" name="ra">
+            </div>
         </div>
         <div class="form-group">
             <label>Email:</label>
@@ -57,7 +60,7 @@
             <label>Telefone:</label>
             <input type="text" value="${aluno.telefone}" name="telefone">
         </div>
-        <button>Enviar</button>
+        <input class="button" type="submit" value="Cadastrar">
         `;
 
         alunoDiv.innerHTML = alunoContent;
@@ -67,45 +70,43 @@
     // Função para criar a tabela de currículos
     function createCurriculosTable(data) {
         const alunoDetalhes = document.getElementById('aluno-detalhes');
+
+        if (!data.length) {
+            console.log('não ha');
+            const p = document.createElement('p');
+            p.innerHTML = 'teste'
+            alunoDetalhes.appendChild(p);
+        }
+
         const table = document.createElement('table');
         table.className = 'curriculos-table';
 
-        // Cabeçalho da tabela
-        const headerRow = table.insertRow();
-        const headers = ['ID', 'Curso', 'Ações'];
-        headers.forEach(headerText => {
-            const header = document.createElement('th');
-            header.textContent = headerText;
-            headerRow.appendChild(header);
-        });
+        // Cabeçalho da tabela dentro do thead
+        const headers = ['ID', 'Curso', 'Link do Currículo', 'Edição'];
+        const thead = document.createElement('thead');
+        const headerRow = `<tr class="curriculo-row">
+                              ${headers.map(headerText => `<th>${headerText}</th>`).join('')}
+                          </tr>`;
+        thead.innerHTML = headerRow;
+        table.appendChild(thead);
 
-        // Corpo da tabela (linhas de currículos)
+        // Corpo da tabela (linhas de currículos) dentro do tbody
+        const tbody = document.createElement('tbody');
         data.forEach(curriculo => {
-            const row = table.insertRow();
-            row.className = 'curriculo-row';
+            const link = `<a href="http://localhost:8080/upload/${curriculo.midia}" target="_blank">http://localhost:8080/upload/${curriculo.midia}</a>`;
+            const deleteButton = `<button onclick="deleteCurriculo('${curriculo.idCurriculo}', '${curriculo.midia}')">Excluir</button>`;
 
-            // Colunas da tabela
-            const idCell = row.insertCell();
-            idCell.textContent = curriculo.curriculo.idCurriculo;
+            const row = `<tr class="curriculo-row">
+                            <td>${curriculo.idCurriculo}</td>
+                            <td>${curriculo.nomeCurso}</td>
+                            <td>${link}</td>
+                            <td>${deleteButton}</td>
+                        </tr>`;
 
-            const cursoCell = row.insertCell();
-            cursoCell.textContent = curriculo.curriculo.nomeCurso;
-
-            const cursoMidia = row.insertCell();
-            const link = document.createElement('a');
-            link.textContent = "Visualizar"; // Texto do link, pode ser alterado conforme necessário
-            link.href = 'http://localhost:8080/upload/' + curriculo.curriculo.midia; // Define o href do link
-            link.target = "_blank"; // Opcional: abre o link em uma nova aba
-            cursoMidia.appendChild(link);
-
-            const actionCell = row.insertCell();
-            const deleteButton = document.createElement('button');
-            deleteButton.textContent = 'Excluir';
-            deleteButton.addEventListener('click', () => {
-                deleteCurriculo(curriculo.curriculo.idCurriculo, curriculo.curriculo.midia);
-            });
-            actionCell.appendChild(deleteButton);
+            tbody.innerHTML += row;
         });
+
+        table.appendChild(tbody);
 
         alunoDetalhes.appendChild(table);
     }

@@ -1,5 +1,9 @@
 #mensagensAviso{
+    max-width: 300px;
     width: 100%;
+    position: fixed;
+    bottom: 30px;
+    right: 0px;
 }
 .aviso {
     padding: 10px;
@@ -9,16 +13,19 @@
 }
 
 .aviso.info {
+    box-shadow: 0 0 10px 0 #31708f;
     background-color: #d9edf7;
     color: #31708f;
 }
 
 .aviso.erro {
+    box-shadow: 0 0 10px 0 #a94442;
     background-color: #f2dede;
     color: #a94442;
 }
 
 .aviso.sucesso {
+    box-shadow: 0 0 10px 0 #3c763d;
     background-color: #dff0d8;
     color: #3c763d;
 }

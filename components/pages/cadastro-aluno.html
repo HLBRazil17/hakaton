@@ -12,13 +12,15 @@
             Os campos que possuem * são obrigatórios
         </strong>
 
-        <div class="form-group">
-            <label>*Nome:</label>
-            <input type="text" name="nome" id="nome" placeholder="Insira seu nome" value="">
-        </div>
-        <div class="form-group">
-            <label>*Email:</label>
-            <input type="email" name="email" id="email" placeholder="Insira seu email" value="">
+        <div class="row-card">
+            <div class="form-group">
+                <label>*Nome:</label>
+                <input type="text" name="nome" id="nome" placeholder="Insira seu nome" value="">
+            </div>
+            <div class="form-group">
+                <label>*Email:</label>
+                <input type="email" name="email" id="email" placeholder="Insira seu email" value="">
+            </div>
         </div>
         <div class="form-group">
             <label>*Ra:</label>
@@ -28,20 +30,22 @@
             <label>*Telefone:</label>
             <input type="text" name="telefone" id="telefone" placeholder="(00) 9 0000-0000" value="">
         </div>
-        <div class="form-group">
-            <label>*Data de nascimento:</label>
-            <input type="date" name="dataNasc" id="dataNasc" value="">
+        <div class="row-card">
+            <div class="form-group">
+                <label>*Data de nascimento:</label>
+                <input type="date" name="dataNasc" id="dataNasc" value="">
+            </div>
+
+            <div class="form-group">
+                <label for="cursos">*Escolha um curso:</label>
+                <select id="cursos" name="cursoNome" class="form-group">
+                    <option value="" style="display: none;" selected>Selecione o curso...</option>
+                </select>
+            </div>
         </div>
 
         <div class="form-group">
-            <label for="cursos">*Escolha um curso:</label>
-            <select id="cursos" name="cursoNome" class="form-group">
-                <option value="" style="display: none;" selected>Selecione o curso...</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <input type="submit" value="Cadastrar">
+            <input class="button" type="submit" value="Cadastrar">
         </div>
     </div>
 </form>

@@ -1,8 +1,6 @@
 <?php
-
 //OBTÉM A ROTA DA URL
-function obterRota()
-{
+function obterRota(){
     $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     $rota = explode("/", trim($url, '/'));
 
@@ -15,10 +13,9 @@ function obterRota()
 }
 
 //INCLUI AS PÁGINAS RETORNADAS PELO OBTERROTA()
-function incluirPagina($pagina)
-{
+function incluirPagina($pagina){
     //
-    $arquivoPagina = "pages/{$pagina}.html";
+    $arquivoPagina = "components/pages/{$pagina}.html";
 
     //VERIFICA SE O ARQUIVO DA PÁGINA NÃO EXISTE
     if (!file_exists($arquivoPagina)) {
@@ -43,55 +40,30 @@ $tituloPagina = ucfirst(str_replace('-', ' ', $rota));
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($tituloPagina); ?></title>
-    <link rel="stylesheet" href="/pages/css/style.css">
+    <link rel="stylesheet" href="components/css/style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 </head>
 
 <body>
-    <nav>
-        <ul>
-            <div style="padding:10px">
-                <a href="/cadastro-aluno" class="cadastro">
-                    <span class="item-text">
-                        Cadastrar de Aluno
-                    </span>
-                    <span class="material-symbols-outlined icon-des">
-                        add
-                    </span>
-                </a>
-            </div>
-            <li>
-                <a href="/">
-                    <span class="material-symbols-outlined icon-des">
-                        account_box
-                    </span>
-                    <span class="item-text">
-                        Gerenciamento de Alunos
-                    </span>
-                </a>
-            </li>
-            <li>
-                <a href="/envio-curriculo">
-                    <span class="material-symbols-outlined icon-des">
-                        send
-                    </span>
-                    <span class="item-text">
-                        Envio Curriculo
-                    </span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+
+    <?php
+    include("components/header.html");
+    ?>
+
+    <?php
+    include("components/navigation.html");
+    ?>
 
     <main>
         <?php
         incluirPagina($rota);
         ?>
     </main>
-    <!-- 
-    <footer>
-        footer
-    </footer> -->
+
+    <script>
+        const btnToggle =document.querySelector('.toggle-menu');
+        console.log(teste);
+    </script>
 </body>
 
 </html>
