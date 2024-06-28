@@ -10,6 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "DELETE") {
 
     //PREPARA AS VARIÁVEIS COM O VALOR PASSADO PELOS PARÂMETROS
     $idCurriculo = $_GET['idCurriculo'];
+    $nomeArquivo = $_GET['nomeArquivo'];
 
     // ID do aluno a ser deletado (sanitize para evitar SQL Injection)
     if (!isset($idCurriculo)) {
@@ -26,6 +27,14 @@ if ($_SERVER["REQUEST_METHOD"] == "DELETE") {
         echo json_encode(['error' => 'Erro ao deletar o curriculo:'], JSON_UNESCAPED_UNICODE);
         exit;
     }
+
+    //CAMINHO DO ARQUIVO NO DIRETÓRIO DE UPLOADS
+    $caminhoArquivo = __DIR__. '/../../upload/'. $nomeArquivo;
+
+    //
+    if (!unlink($caminhoArquivo)) {
+        echo json_encode(['success' => 'Arquivo PDF excluído com sucesso.'], JSON_UNESCAPED_UNICODE);
+    } 
 
     //CURRICULO DELETADO COM SUCESSO
     echo json_encode(['success' => 'Curriculo deketado com sucesso.'], JSON_UNESCAPED_UNICODE);

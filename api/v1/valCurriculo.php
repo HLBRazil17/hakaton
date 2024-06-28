@@ -95,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tempoFormatado = $dataHoraAtual->format('Y-m-d H:i:s');
 
     //separar o link dos arquivos em , igual o midia
-    $midia = 'http://'.$_SERVER['HTTP_HOST'].'/upload/'.$nomeArquivo;
+    $midia = $nomeArquivo;
     $dataEnv = $tempoFormatado;    ;
 
     //INSERE AS INFORMACOES DO CURRICULO AO BANCO DE DADOS

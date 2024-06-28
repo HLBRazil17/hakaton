@@ -24,6 +24,7 @@
     background: white;
     border-radius: 24px;
     display: flex;
+    align-items: flex-start;
     flex-direction: column;
     max-width: 900px;
 }
