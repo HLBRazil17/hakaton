@@ -32,7 +32,7 @@
         </div>
 
         <div class="form-group">
-            <label>*Enviar Curriculo(PDF):</label>
+            <label>*Enviar Curriculo (PDF):</label>
             <div class="row-card selecao-curriculo" onclick="document.getElementById('envioCurriculo').click();"
                 style="cursor: pointer;">
                 <span class="material-symbols-outlined">
@@ -40,8 +40,12 @@
                 </span>
                 Selecionar Curriculo
             </div>
-            <input type="file" name="arquivoCurriculo" id="envioCurriculo" accept="application/pdf"
-                style="display: none;">
+            <div id="previaCurriculo" onclick="fecharPrevia()">
+                <div id="previa" style="width:100%; max-width:900px;">
+
+                </div>
+            </div>
+            <input type="file" name="arquivoCurriculo" id="envioCurriculo" accept="application/pdf" style="display: none;">
         </div>
 
         <div class="form-group">
@@ -50,9 +54,11 @@
     </form>
 </section>
 
-
-
 <script>
+    //OBTÉM O HOST DA URL ATUAL
+    const urlHost = window.location.origin
+    
+    //FUNÇÃO QUE EXIBE UM AVISO PARA O USUÁRIO
     function mostrarAviso(mensagem, tipo = 'info') {
         const mensagensAviso = document.querySelector('#mensagensAviso');
         mensagensAviso.innerHTML = `<div class="aviso ${tipo}">${mensagem}</div>`;
@@ -61,37 +67,44 @@
         }, 15000);
     }
 
+    //MÉTODO DE ENVIO DO CURRICULO
     function enviarArquivo() {
         event.preventDefault();
 
+        //OBTÉM OS VALORES DO CAMPOS 
         const ra = document.querySelector('#ra').value;
         const dataNascimento = document.querySelector('#dataNasc').value;
         const cursoNome = document.querySelector('#cursos').value;
         const envioCurriculo = document.querySelector('#envioCurriculo');
         const arquivo = envioCurriculo.files[0];
 
+        //VERIFICA SE O ARQUIVO FOI INSERIDO
         if (!arquivo) {
             mostrarAviso('Por favor, selecione um arquivo Válido.');
             return;
         }
 
+        //VERIFICA SE O RA FOI INSERIDO
         if (!ra) {
             mostrarAviso('Por favor, insira seu nome.');
             return;
         }
 
+        //VERIFICA SE A DATA DE NASCIMENTO FOI INSERIDA
         if (!dataNascimento) {
             mostrarAviso('Por favor, insira sua data de nascimento.');
             return;
         }
 
+        //CRIA UM NOVO FORMULARIO E OBTÉM OS VALORES INSERIDOS PELO INPUT
         const formData = new FormData();
         formData.append('ra', ra);
         formData.append('dataNasc', dataNascimento);
         formData.append('arquivoCurriculo', arquivo);
         formData.append('cursoNome', cursoNome);
 
-        fetch('http://localhost:8080/api/v1/valCurriculo.php', {
+        //CADASTRO DO CURRICULO
+        fetch(`${urlHost}/api/v1/valCurriculo.php`, {
             method: 'POST',
             body: formData
         })
@@ -112,8 +125,8 @@
     }
 
     function getApiCurso() {
-        // Fazer solicitação GET para obter dados do servidor PHP
-        fetch('http://localhost:8080/api/v1/getCurso.php', {
+        //OBTÉM OS VALORES DOS CURSOS
+        fetch(`${urlHost}/api/v1/getCurso.php`, {
             method: 'GET',
             credentials: 'include'
         })
@@ -136,5 +149,31 @@
             });
     }
     getApiCurso();
+
+    //EXIBE UMA PRÉVIA DO CURRICULO INSERIDO
+    function exibirPreviewPDF(event) {
+        const arquivo = event.target.files[0];
+        const reader = new FileReader();
+        const previaCurriculo = document.querySelector('#previaCurriculo');
+        const previa = document.querySelector('#previa');
+        previaCurriculo.style.display='flex'
+
+        reader.onload = function (e) {
+            const curriculoUrl = e.target.result;
+            const curriculo = `<embed src="${curriculoUrl}" type="application/pdf" width="100%" height="100%">`;
+            previa.innerHTML = curriculo;
+        };
+
+        if (arquivo) {
+            reader.readAsDataURL(arquivo);
+        }
+    }
+
+    document.getElementById('envioCurriculo').addEventListener('change', exibirPreviewPDF);
+
+    function fecharPrevia(){
+            const previa =document.querySelector('#previaCurriculo');
+            previa.style.display='none';
+    }
 
 </script>

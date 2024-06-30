@@ -4,14 +4,24 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
     //DEFINE O CABEÇALHO EM JSON
     header("Content-Type: application/json");
-    header("Access-Control-Allow-Origin: http://127.0.0.1:5173");
+    header("Access-Control-Allow-Origin: http://192.168.0.106:8080");
     header("Access-Control-Allow-Credentials: true");
 
     //CONECTA COMO BANCO DE DADOS
     require ('../../databaseManager/conectar.php');
 
+    //PEGA O PARÂMETRO DE BUSCA SE EXISTIR
+    $busca = $_GET['busca'] ?? null;
+    $estadoAluno = $_GET['estado'] ?? null;
+
     //PREPARA A CONSULTA SQL
-    $getAlunos =  "SELECT * FROM dados";
+    $getAlunos =  "SELECT * FROM dados WHERE nome LIKE '%$busca%'";
+
+    // ADICIONA CONDIÇÃO DE ESTADO SE FOR FORNECIDA
+    if ($estadoAluno !== null) {
+        //RETORNA OS DETALHES DE ALUNOS DE ACORDO COM SEU ESTADO
+        $getAlunos .= " AND estado = '$estadoAluno'";
+    }
 
     //EXECUTA A CONSULTA
     $result = $conn->query($getAlunos);
@@ -26,15 +36,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
     //RENDERIZA OS RESULTADOS DA CONSULTA
     while ($row = $result->fetch_assoc()) {
-        //RETORNA OS DETALHES DE ALUNOS SE FOREM 'ATIVOS'
-        if($row['estado'] == 'a'){
-            $alunos[] = [
-                'iduser' => $row['idUser'],
-                'nome'   => $row['nome'],
-                'ra'     => $row['ra'],
-                'email'  => $row['email'],
-            ];
-        }
+        $alunos[] = [
+            'iduser' => $row['idUser'],
+            'nome'   => $row['nome'],
+            'ra'     => $row['ra'],
+            'email'  => $row['email'],
+            'estado' => $row['estado'],
+        ];
     }
 
     //CONVERTE A ARRAY PARA JSON

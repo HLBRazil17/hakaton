@@ -1,4 +1,4 @@
-<nav>
+<nav class="navegacao">
     <ul>
         <div style="padding:10px">
             <a href="/cadastro-aluno" class="cadastro">

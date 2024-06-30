@@ -26,6 +26,10 @@ li {
   list-style: none;
 }
 
+h2 {
+  margin: 30px 0;
+}
+
 nav {
   width: 80px;
   grid-area: nav;
@@ -34,16 +38,19 @@ nav {
   overflow: hidden;
 }
 
-header{
+header {
   grid-area: header;
   background: #F6F8FC;
   padding: 16px;
+  position: sticky;
+  top: 0;
+  display: flex;
 }
 
 main {
   display: flex;
   grid-area: main;
-  padding: 16px 10px;
+  padding: 0 16px;
   width: 100%;
   max-width: 1330px;
   margin: 0 auto 20px;
@@ -62,29 +69,42 @@ nav ul {
   left: 0;
 }
 
-nav:hover .item-text{
+nav:hover .item-text {
   opacity: 1;
   display: flex;
 }
 
-nav:hover .icon-des{
+nav:hover .icon-des {
   margin: 0;
 }
 
-.item-text{
+.item-text {
   opacity: 0;
   display: none;
 }
 
-nav:hover{
+nav:hover {
   width: 290px;
 }
 
-nav:hover ul li{
+nav.open {
+  width: 290px;
+}
+
+nav.open .item-text {
+  opacity: 1;
+  display: flex;
+}
+
+nav.open .icon-des {
+  margin: 0;
+}
+
+nav:hover ul li {
   margin-right: 10px;
 }
 
-nav ul li{
+nav ul li {
   border-radius: 0 10px 10px 0;
 }
 
@@ -103,7 +123,8 @@ nav ul a {
   transition: .3s;
 }
 
-button, .button {
+button,
+.button {
   cursor: pointer;
   border: none;
   padding: 16px;
@@ -117,31 +138,11 @@ button, .button {
   font-size: 15px;
 }
 
-.cadastro {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-  font-weight: 700;
-  height: 50px;
-  background: rgb(194, 231, 255);
-  border-radius: 8px;
-}
-
-.cadastro a,
-.cadastro a span{
-  padding: 0;
-}
-
-.icon-des{
-  font-size: 30px !important;
-  margin: 0 auto;
-}
-
-nav ul li:hover{
+nav ul li:hover {
   background: #F9E9E7;
 }
-nav ul li:hover a{
+
+nav ul li:hover a {
   color: #C84031;
 }
 
@@ -164,7 +165,7 @@ table {
 
 tr {
   display: grid;
-  grid-template-columns: 50px 1fr 1fr 200px 100px;
+  grid-template-columns: 50px 1fr 1fr 200px 200px 100px;
   padding: 16px;
   width: 100%;
   border-bottom: 1px solid #EDEFF1;
@@ -178,7 +179,7 @@ tr {
   border-bottom: 1px solid #EDEFF1;
 }
 
-.curriculos-table{
+.curriculos-table {
   margin-top: 30px;
 }
 
@@ -186,7 +187,7 @@ table tbody tr:nth-child(odd) {
   background-color: #F5F7F7;
 }
 
-th span{
+th span {
   font-weight: 700;
   color: #00000054;
   display: flex;
@@ -204,12 +205,12 @@ td {
   align-items: center;
 }
 
-th{
+th {
   gap: 5px;
 }
 
-td a{
-  color: #000000be;
+td a {
+  color: #001d35;
 }
 
 table tbody tr td:nth-child(2n+2) {
@@ -217,7 +218,7 @@ table tbody tr td:nth-child(2n+2) {
   font-weight: 700;
 }
 
-td span{
+td span {
   align-items: center;
   word-break: break-all;
   overflow: hidden;
@@ -227,22 +228,25 @@ td span{
   -webkit-box-orient: vertical;
 }
 
-input, select{
+.aluno span,
+.curriculo a {
+  align-items: center;
+  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+input,
+select {
   border-radius: 8px;
   padding: 12px;
   border: 2px solid #EDEFF1;
 }
 
-.row-card{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  flex-wrap: wrap;
-}
-
-.selecao-curriculo{
+.selecao-curriculo {
   display: flex;
   width: 100%;
   height: 200px;
@@ -252,23 +256,69 @@ input, select{
   border-radius: 8px;
 }
 
-.toggle-menu span{
+.toggle-menu span {
   font-size: 35px;
   cursor: pointer;
 }
 
-@media (max-width: 1000px){
-  nav{
+strong {
+  color: #b1adad;
+}
+
+#dadosAlunosMobile {
+  display: none;
+}
+
+#previaCurriculo {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  margin: 0 auto;
+  height: 100%;
+  padding: 16px;
+  justify-content: center;
+  background: #2021248a;
+  cursor: pointer;
+}
+
+@media (max-width: 1000px) {
+  body {
+    grid-template-rows: 0fr;
+  }
+
+  nav {
     position: fixed;
     width: 290px;
     top: 70px;
     left: 0;
+    transform: translateX(-1000px);
+    transition: .4s;
   }
-  .item-text{
+
+  nav.open {
+    transform: translateX(0px);
+  }
+
+  .item-text {
     opacity: 1;
     display: flex;
   }
-  .icon-des{
+
+  .icon-des {
     margin: 0;
+  }
+
+  header {
+    height: 70px;
+  }
+
+  #dadosAlunosMobile {
+    display: flex;
+  }
+
+  #previaCurriculo {
+    visibility: hidden;
   }
 }

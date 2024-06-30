@@ -48,6 +48,105 @@
   flex-direction: column;
 }
 
-strong{
-  color: #b1adad;
+.row-card{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.cadastro {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  font-weight: 700;
+  height: 50px;
+  background: rgb(194, 231, 255);
+  border-radius: 8px;
+}
+
+.cadastro:hover{
+  box-shadow: 0 0 10px 0 #001d35;
+}
+
+.cadastro a,
+.cadastro a span{
+  padding: 0;
+}
+
+.icon-des{
+  font-size: 30px !important;
+  margin: 0 auto;
+}
+
+@media (max-width: 1000px){
+  .row-card{
+    flex-wrap: wrap;
+  }
+
+  .table-desktop{
+    display: none;
+  }
+
+  .aluno{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    max-width: 350px;
+    margin: 0 auto;
+    box-shadow: 0 0 5px 0 #202124;
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 20px;
+  }
+
+  .aluno div{
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+  }
+
+  .aluno span{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .aluno a{
+    color: #001d35;
+    width: fit-content;
+  }
+
+  .curriculo{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    max-width: 350px;
+    margin: 0 auto;
+    box-shadow: 0 0 5px 0 #202124;
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 20px;
+  }
+
+  .curriculo div{
+    width: 100%;
+    gap: 8px;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+  }
+
+  .curriculo span{
+    width: 100%;
+    display: flex;
+  }
+
+  .curriculo a{
+    color: #001d35;
+    width: fit-content;
+  }
 }

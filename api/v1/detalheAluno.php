@@ -2,7 +2,7 @@
     if ($_SERVER["REQUEST_METHOD"] == "GET") {
     //DEFINE O CABEÇALHO EM JSON
     header("Content-Type: application/json");
-    header("Access-Control-Allow-Origin: http://127.0.0.1:5173");
+    header("Access-Control-Allow-Origin: http://192.168.0.106:8080");
     header("Access-Control-Allow-Credentials: true");
 
     //CONECTA COMO BANCO DE DADOS

@@ -1,4 +1,4 @@
-<table class="">
+<table class="table-desktop">
     <thead>
         <tr>
             <th>
@@ -35,28 +35,46 @@
                     edit
                 </span>
                 <span>
+                    Status
+                </span>
+            </th>
+            <th>
+                <span class="material-symbols-outlined">
+                    edit
+                </span>
+                <span>
                     Edição
                 </span>
             </th>
         </tr>
     </thead>
-    <tbody id="dadosAlunos">
+    <tbody id="dadosAlunosDesktop">
 
     </tbody>
 </table>
+<section class="container" id="dadosAlunosMobile">
+
+</section>
+
 <script>
+    //OBTÉM O HOST DA URL ATUAL
+    const urlHost = window.location.origin
+
+    //FUNÇÃO QUE EXIBE UM AVISO PARA O USUÁRIO
     function mostrarAviso(mensagem, tipo = 'info') {
         const mensagensAviso = document.querySelector('#mensagensAviso');
         mensagensAviso.innerHTML = `<div class="aviso ${tipo}">${mensagem}</div>`;
     }
 
+    //METODO RESPONSÁVEL POR RENDERIZAR
     function mostrarAlunos(data) {
-        const dadosAlunos = document.querySelector('#dadosAlunos');
+        const dadosAlunosDesktop = document.querySelector('#dadosAlunosDesktop');
+        const dadosAlunosMobile = document.querySelector('#dadosAlunosMobile');
 
-        // Limpar div antes de inserir novos dados
-        dadosAlunos.innerHTML = '';
+        //LIMPA O CONTEÚDO ANTES DE INSERIR OS NOVOS DADOS
+        dadosAlunosDesktop.innerHTML = '';
 
-        // Iterar sobre os dados e criar divs para cada aluno
+        //PERCORRE AS INFORMAÇÕES DO ALUNO PARA RENDERIZA-LOS
         data.forEach(aluno => {
             const divAluno = document.createElement('tr');
             divAluno.classList.add('aluno');
@@ -66,6 +84,7 @@
                 <td><span>${aluno.nome}</span></td>
                 <td><span>${aluno.email}</span></td>
                 <td><span>${aluno.ra}</span></td>
+                <td><strong style="color: ${aluno.estado === 'a' ? 'green' : 'red'};">${aluno.estado === 'a' ? 'Ativo' : 'Inativo'}</strong></td>
                 <td>
                     <a href="/detalheAluno?idUser=${aluno.iduser}">
                         <span class="material-symbols-outlined">
@@ -76,13 +95,42 @@
                 </td>
             `;
 
-            dadosAlunos.appendChild(divAluno);
+            dadosAlunosDesktop.appendChild(divAluno);
+        });
+
+        //PERCORRE AS INFORMAÇÕES DO ALUNO PARA RENDERIZA-LOS
+        data.forEach(aluno => {
+            const divAluno = document.createElement('div');
+            divAluno.classList.add('aluno');
+
+            divAluno.innerHTML = `
+                <div><b>ID: ${aluno.iduser}</b></div>
+                <div>
+                    <span>Nome: ${aluno.nome}</span>
+                    <span>Email: ${aluno.email}</span>
+                    <span>Ra: ${aluno.ra}</span>
+                </div>
+                <div style="justify-content:space-between; flex-direction: row;">
+                    <span>
+                        Status:
+                        <strong style="color: ${aluno.estado === 'a' ? 'green' : 'red'};">${aluno.estado === 'a' ? 'Ativo' : 'Inativo'}</strong></td>
+                    </span>
+                    <a href="/detalheAluno?idUser=${aluno.iduser}">
+                        <span class="material-symbols-outlined">
+                        open_in_new
+                        </span>
+                        Detalhes
+                    </a>
+                </div>
+            `;
+
+            dadosAlunosMobile.appendChild(divAluno);
         });
     }
 
     function getApiAluno() {
-        // Fazer solicitação GET para obter dados do servidor PHP
-        fetch('http://localhost:8080/api/v1/getAlunos.php', {
+        //OBTÉM OS DADOS DE TODOS OS ALUNOS
+        fetch(`${urlHost}/api/v1/getAlunos.php`, {
             method: 'GET',
             credentials: 'include'
         })
@@ -93,14 +141,13 @@
                 return response.json();
             })
             .then(data => {
-                mostrarAlunos(data); // Chamar função para mostrar os alunos na página
+                mostrarAlunos(data);
             })
             .catch(error => {
                 console.error('Erro:', error);
                 mostrarAviso('Erro ao carregar os dados dos alunos.', 'error');
             });
     }
-
 
     getApiAluno();
 

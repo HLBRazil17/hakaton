@@ -51,7 +51,10 @@
 </form>
 
 <script>
+    //OBTÉM O HOST DA URL ATUAL
+    const urlHost = window.location.origin
 
+    //OBTÉM OS VALORES DOS INPUTS
     const nome = document.querySelector('#nome').value;
     const email = document.querySelector('#email').value;
     const ra = document.querySelector('#ra').value;
@@ -59,14 +62,15 @@
     const dataNasc = document.querySelector('#dataNasc').value;
 
 
+    //FUNÇÃO QUE EXIBE UM AVISO PARA O USUÁRIO   
     function mostrarAviso(mensagem, tipo = 'info') {
         const mensagensAviso = document.querySelector('#mensagensAviso');
         mensagensAviso.innerHTML = `<div class="aviso ${tipo}">${mensagem}</div>`;
     }
 
     function getApiCurso() {
-        // Fazer solicitação GET para obter dados do servidor PHP
-        fetch('http://localhost:8080/api/v1/getCurso.php', {
+        //OBTÉM OS VALORES DOS CURSOS
+        fetch(`${urlHost}/api/v1/getCurso.php`, {
             method: 'GET',
             credentials: 'include'
         })
@@ -91,13 +95,13 @@
     getApiCurso();
 
     document.getElementById('formAluno').addEventListener('submit', function (event) {
-        event.preventDefault(); // Evita o envio padrão do formulário
+        event.preventDefault();
 
-        // Captura os dados do formulário
+        //CAPTURA OS DADOS CONTIDOS NO FORMULÁRIO
         const formData = new FormData(this);
 
-        // Faz o POST dos dados para a API de cadastro de aluno
-        fetch('http://localhost:8080/api/v1/cadAluno.php', {
+        //ENVIA OS DADOS DO ALUNOS PARA O CADASTRO
+        fetch(`${urlHost}/api/v1/cadAluno.php`, {
             method: 'POST',
             body: formData,
             credentials: 'include'

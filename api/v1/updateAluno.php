@@ -8,11 +8,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // Define o cabeçalho como JSON
     header("Content-Type: application/json");
-    header("Access-Control-Allow-Origin: http://127.0.0.1:5173");
+    header("Access-Control-Allow-Origin: http://192.168.0.106:8080");
     header("Access-Control-Allow-Credentials: true");
 
     // Limpa e valida os dados recebidos
-    $alunoId = $_POST['idUser'];
+    $alunoId = $_GET['idUser'];
     $nome = $_POST['nome'];
     $telefone = $_POST['telefone'];
     $email = $_POST['email'];
