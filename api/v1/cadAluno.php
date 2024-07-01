@@ -1,10 +1,13 @@
 <?php
 
+//VERIFICA SE A REQUEST É UM (POST)
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $url = $_SERVER['HTTP_HOST'];
 
     //DEFINE O CABEÇALHO EM JSON
     header("Content-Type: application/json");
-    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Origin: $url");
     header("Access-Control-Allow-Credentials: true");
 
     //CONECTA COMO BANCO DE DADOS
@@ -29,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-    //
+    //LIGA OS PARÂMETROS À CONSULTA SQL
     $stmt->bind_param("sssss", $nome, $telefone, $email, $dataNasc, $ra);
 
     //VERIFICA A EFETUAÇÃO DO CADASTRO
@@ -39,20 +42,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-    //PREPARA A CONSULTA SQL
+    //VERIFICA SE AS INFORMAÇÕES PASSADAS SÃO VÁLIDAS
     $getAlunos = "SELECT * FROM dados WHERE nome LIKE '$nome' AND dataNasc = '$dataNasc' LIMIT 1";
 
     //EXECUTA A CONSULTA
     $result = $conn->query($getAlunos);
 
-    //
+    //OBTÉM O RESULTADO DA CONSULTA
     $aluno = $result->fetch_assoc();
 
-    //
-    $sql = "INSERT INTO dados_has_curso(dados_idUser, curso_idCurso) VALUES (?, ?)";
-
-    //
-    $stmt = $conn->prepare($sql);
+    //PREPARA A CONSULTA COM O SQL
+    $sqlCurso = "INSERT INTO dados_has_curso(dados_idUser, curso_idCurso) VALUES (?, ?)";
+    $stmt = $conn->prepare($sqlCurso);
 
     //VERIFICA A PREPARAÇÃO DO $SQL
     if (!$stmt) {
@@ -61,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-    //
+    //LIGA OS PARÂMETROS À CONSULTA SQL
     $stmt->bind_param("ii", $aluno['idUser'], $cursoNome);
 
     //VERIFICA A EFETUAÇÃO DO CADASTRO

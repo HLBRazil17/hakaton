@@ -1,9 +1,8 @@
 <?php
 
-header("Access-Control-Allow-Origin: *");
-
 //OBTÉM A ROTA DA URL
-function obterRota(){
+function obterRota()
+{
     $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     $rota = explode("/", trim($url, '/'));
 
@@ -12,12 +11,15 @@ function obterRota(){
         $rota[0] = 'gerenciamento-alunos';
     }
 
+    //RETORNA A ROTA
     return $rota[0];
 }
 
 //INCLUI AS PÁGINAS RETORNADAS PELO OBTERROTA()
-function incluirPagina($pagina){
-    //
+function incluirPagina($pagina)
+{
+
+    //DEFINE O CAMINHO DO ARQUIVO DA PÁGINA A SER RENDERIZADA
     $arquivoPagina = "components/pages/{$pagina}.php";
 
     //VERIFICA SE O ARQUIVO DA PÁGINA NÃO EXISTE
@@ -26,6 +28,7 @@ function incluirPagina($pagina){
         return;
     }
 
+    //RENDERIZA A PÁGINA
     include $arquivoPagina;
 }
 
@@ -51,13 +54,13 @@ $tituloPagina = ucfirst(str_replace('-', ' ', $rota));
 <body>
 
     <?php
-        //INCLUI O COMPONETE DO CABEÇALHO
-        include("components/header.php");
+    //INCLUI O COMPONETE DO CABEÇALHO
+    include("components/header.php");
     ?>
 
     <?php
-        //INCLUI O COMPONETE DE NAVEGAÇÃO
-        include("components/navigation.php");
+    //INCLUI O COMPONETE DE NAVEGAÇÃO
+    include("components/navigation.php");
     ?>
 
     <main>
@@ -69,9 +72,18 @@ $tituloPagina = ucfirst(str_replace('-', ' ', $rota));
 
     <script>
         //METODO PARA ABRIR E FECHAR O MENU LATERAL
-        function toggleNav(){
-            const navegacao =document.querySelector('.navegacao');
+        function toggleNav() {
+            const navegacao = document.querySelector('.navegacao');
             navegacao.classList.toggle('open');
+        }
+        
+        //FUNÇÃO QUE EXIBE UM AVISO PARA O USUÁRIO
+        function mostrarAviso(mensagem, tipo = 'info') {
+            const mensagensAviso = document.querySelector('#mensagensAviso');
+            mensagensAviso.innerHTML = `<div class="aviso ${tipo}">${mensagem}</div>`;
+            setTimeout(() => {
+                mensagensAviso.innerHTML = ``;
+            }, 15000);
         }
     </script>
 </body>

@@ -1,10 +1,13 @@
 <?php
-//VERIFICA SE A REQUEST É UM (POST)
+
+//VERIFICA SE A REQUEST É UM (GET)
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
+
+    $url = $_SERVER['HTTP_HOST'];
 
     //DEFINE O CABEÇALHO EM JSON
     header("Content-Type: application/json");
-    header("Access-Control-Allow-Origin: http://192.168.0.106:8080");
+    header("Access-Control-Allow-Origin: $url");
     header("Access-Control-Allow-Credentials: true");
 
     //CONECTA COMO BANCO DE DADOS
@@ -27,11 +30,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $result = $conn->query($getAlunos);
 
     //VERIFICA SE A TABELA CONTÉM ALUNO
-    if($result->num_rows <= 0){
-        throw new \Exception("Esse usuário não existe", 404);
-    }
+    // if($result->num_rows <= 0){
+    //     throw new \Exception("Esse usuário não existe", 404);
+    // }
 
-    //ARRAY $ALUNOS
+    //ARRAY QUE ARMAZENAM O RESULTADO DA CONSULTA
     $alunos = [];
 
     //RENDERIZA OS RESULTADOS DA CONSULTA

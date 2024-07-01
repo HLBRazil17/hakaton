@@ -1,5 +1,6 @@
 <section id="aluno-detalhes" class="container">
     <h2>Edição Usuário</h2>
+
     <a href="/" style="color: black; margin: 20px 0; display: flex; align-items: center;">
         <span class="material-symbols-outlined">
             arrow_back_ios
@@ -45,6 +46,9 @@
                 </th>
             </tr>
         </thead>
+        <div style="display: flex; width:100%; align-items:center;">
+            <input class="form-group" type="text" id="buscaCurriculo" name="busca" placeholder="Insira o nome do curriculo" style="border-radius: 10px 0 0 10px;">
+        </div>
         <tbody id="dadosAlunosDesktop">
         </tbody>
     </table>
@@ -68,12 +72,22 @@
     //CAPTURA O VALOR DO PARÂMETRO "IDUSER"
     const alunoId = params.get('idUser');
 
-    function getApiAluno() {
+    //ARMAZENA EM UMA VARIAVEL O ELEMENTO 'BUSCACURRIUCLO'
+    const buscaCurriculo = document.getElementById('buscaCurriculo');
+
+    buscaCurriculo.addEventListener('input', function() {
+        let inputText = this.value.trim();
+
+        getApiAluno(inputText);
+
+    });
+
+    function getApiAluno(nome) {
         //OBTÉM OS VALORES DO ALUNO ATRAVÉ DE SEU ID
-        fetch(`${urlHost}/api/v1/getCurriculo.php?idUser=${alunoId}`, {
-            method: 'GET',
-            credentials: 'include'
-        })
+        fetch(`${urlHost}/api/v1/getCurriculo.php?idUser=${alunoId}&busca=${nome ?? ''}`, {
+                method: 'GET',
+                credentials: 'include'
+            })
             .then(response => {
                 return response.json();
             })
@@ -85,11 +99,13 @@
                 console.error('Erro:', error);
             });
     }
+
     getApiAluno();
 
     //METODO RESPONSÁVEL POR RENDERIZAR OS DADOS DO ALUNO
     function renderAlunoDetalhes(aluno) {
         const alunoDetalhes = document.getElementById('dadosAluno');
+        alunoDetalhes.innerHTML = '';
 
         const alunoDiv = document.createElement('div');
         alunoDiv.className = 'container';
@@ -209,9 +225,9 @@
     function deleteCurriculo(idCurriculo, nomeArquivo) {
         //DELETA O CURRICULO ATRAVÉS DE SEU ID 
         fetch(`${urlHost}/api/v1/deleteCurriculo.php?idCurriculo=${idCurriculo}&nomeArquivo=${nomeArquivo}`, {
-            method: 'DELETE',
-            credentials: 'include'
-        })
+                method: 'DELETE',
+                credentials: 'include'
+            })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
@@ -225,7 +241,7 @@
             });
     }
 
-    document.getElementById('dadosAluno').addEventListener('submit', function (event) {
+    document.getElementById('dadosAluno').addEventListener('submit', function(event) {
         event.preventDefault()
 
         //CAPTURA OS DADOS CONTIDOS NO FORMULÁRIO
@@ -233,10 +249,10 @@
 
         //ATUALIZA OS DADOS DO ALUNO ATRAVÉS DE SEU ID
         fetch(`${urlHost}/api/v1/updateAluno.php?idUser=${alunoId}`, {
-            method: 'POST',
-            body: formData,
-            credentials: 'include'
-        })
+                method: 'POST',
+                body: formData,
+                credentials: 'include'
+            })
             .then(response => response.json())
             .then(data => {
                 window.location.reload()
@@ -247,6 +263,4 @@
                 alert('Erro ao atualizar o aluno. Por favor, tente novamente.');
             });
     });
-
-
 </script>

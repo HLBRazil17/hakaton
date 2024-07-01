@@ -57,15 +57,6 @@
 <script>
     //OBTÉM O HOST DA URL ATUAL
     const urlHost = window.location.origin
-    
-    //FUNÇÃO QUE EXIBE UM AVISO PARA O USUÁRIO
-    function mostrarAviso(mensagem, tipo = 'info') {
-        const mensagensAviso = document.querySelector('#mensagensAviso');
-        mensagensAviso.innerHTML = `<div class="aviso ${tipo}">${mensagem}</div>`;
-        setTimeout(() => {
-            mensagensAviso.innerHTML = ``;
-        }, 15000);
-    }
 
     //MÉTODO DE ENVIO DO CURRICULO
     function enviarArquivo() {

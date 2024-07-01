@@ -1,17 +1,19 @@
 <?php
 
-// Verifica se o método de requisição é POST (após o formulário ser submetido)
+//VERIFICA SE A REQUEST É UM (POST)
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    // conectar.php deve estar incluso para estabelecer a conexão com o banco de dados
-    require('../../databaseManager/conectar.php');
-    
-    // Define o cabeçalho como JSON
+    $url = $_SERVER['HTTP_HOST'];
+
+    //DEFINE O CABEÇALHO EM JSON
     header("Content-Type: application/json");
-    header("Access-Control-Allow-Origin: http://192.168.0.106:8080");
+    header("Access-Control-Allow-Origin: $url");
     header("Access-Control-Allow-Credentials: true");
 
-    // Limpa e valida os dados recebidos
+    //CONECTA COMO BANCO DE DADOS
+    require('../../databaseManager/conectar.php');
+
+    //PREPARA AS VARIÁVEIS COM O VALOR PASSADO PELOS PARÂMETROS
     $alunoId = $_GET['idUser'];
     $nome = $_POST['nome'];
     $telefone = $_POST['telefone'];
@@ -20,28 +22,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $ra = $_POST['ra'];
     $estado = $_POST['estado'];
 
-    // Prepara a consulta SQL para atualizar dados do aluno
+    //PREPARA A CONSULTA SQL PARA ATUALIZAR OS DADOS DO ALUNO
     $sql = "UPDATE dados SET nome=?, telefone=?, email=?, dataNasc=?, ra=?, estado=? WHERE idUser=?";
     $stmt = $conn->prepare($sql);
 
-    // Verifica a preparação da consulta
+    //VERIFICA A PREPARAÇÃO DA CONSULTA
     if (!$stmt) {
         http_response_code(500);
         echo json_encode(['error' => 'Erro na preparação da consulta: ' . $conn->error]);
         exit;
     }
 
-    // Liga os parâmetros à consulta SQL
+    //LIGA OS PARÂMETROS À CONSULTA SQL
     $stmt->bind_param("ssssssi", $nome, $telefone, $email, $dataNasc, $ra, $estado, $alunoId);
 
-    // Executa a consulta para atualizar dados do aluno
+    //VERIFICA SE A CONSULTA FOI BEM SUCEDIDA
     if (!$stmt->execute()) {
         http_response_code(500);
         echo json_encode(['error' => 'Erro ao atualizar dados do aluno: ' . $stmt->error]);
         exit;
     }
 
-    // Atualização realizada com sucesso
+    //ATUALIZAÇÃO REALIZADA COM SUCESSO
     echo json_encode(['success' => 'Dados do aluno atualizados com sucesso.']);
     exit;
 }

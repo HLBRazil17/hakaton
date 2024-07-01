@@ -1,8 +1,13 @@
 <?php
-    if ($_SERVER["REQUEST_METHOD"] == "GET") {
+
+//VERIFICA SE A REQUEST É UM (GET)
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    
+    $url = $_SERVER['HTTP_HOST'];
+
     //DEFINE O CABEÇALHO EM JSON
     header("Content-Type: application/json");
-    header("Access-Control-Allow-Origin: http://192.168.0.106:8080");
+    header("Access-Control-Allow-Origin: $url");
     header("Access-Control-Allow-Credentials: true");
 
     //CONECTA COMO BANCO DE DADOS
@@ -22,7 +27,7 @@
         throw new \Exception("Esse usuário não existe", 404);
     }
 
-    //ARRAY $ALUNO
+    //ARRAY QUE ARMAZENAM O RESULTADO DA CONSULTA
     $aluno = [];
 
     //RENDERIZA OS RESULTADOS DA CONSULTA

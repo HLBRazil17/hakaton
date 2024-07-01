@@ -3,9 +3,11 @@
 //VERIFICA SE A REQUEST É UM (POST)
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+    $url = $_SERVER['HTTP_HOST'];
+
     //DEFINE O CABEÇALHO EM JSON
     header("Content-Type: application/json");
-    header("Access-Control-Allow-Origin: http://192.168.0.106:8080");
+    header("Access-Control-Allow-Origin: $url");
     header("Access-Control-Allow-Credentials: true");
 
     //CONECTA COMO BANCO DE DADOS
@@ -14,8 +16,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //PREPARA AS VARIÁVEIS COM O VALOR PASSADO PELOS PARÂMETROS
     $ra = $_POST['ra'];
     $dataNasc = $_POST['dataNasc'];
+    $curso_id = $_POST['cursoNome'];
 
-    // PREPARA A CONSULTA SQL PARA VERIFICAR SE O USUÁRIO EXISTE
+    //PREPARA A CONSULTA SQL PARA VERIFICAR SE O USUÁRIO EXISTE
     $validacaoAl = "SELECT * FROM dados WHERE ra LIKE '$ra' AND dataNasc LIKE '$dataNasc'";
 
     //EXECUTA A CONSULTA
@@ -28,11 +31,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-    //
+    //OBTÉM O RESULTADO DA CONSULTA
     $row = $result->fetch_assoc();
 
+    //OBTÉM AS VARIÁVEIS DO RESULTADO DA CONSULTA 
     $user_id = $row['idUser'];
-    $curso_id = $_POST['cursoNome'];
 
     // CONSULTA SQL PARA CONTAR OS CURRÍCULOS DO USUÁRIO NO CURSO
     $curriculos = "SELECT COUNT(*) AS num_curriculos FROM curriculo WHERE user_id = $user_id AND curso_id = $curso_id";
@@ -40,6 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // EXECUTA A CONSULTA DE CONTAGEM
     $resultCount = $conn->query($curriculos);
 
+    //VERIFICA SE A PREPARAÇÃO DA CONSULTA FOI BEM-SUCEDIDA
     if (!$resultCount) {
         http_response_code(500);
         echo json_encode(['error' => 'Erro na preparação da consulta: '], JSON_UNESCAPED_UNICODE);
@@ -86,7 +90,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-
     //OBTÉM O FUSO HORÁRIO 
     $fusoHorario = new DateTimeZone('America/Sao_Paulo');
 
@@ -104,17 +107,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cadCurriculo = "INSERT INTO curriculo (midia, dataEnv, user_id, curso_id) VALUES (?,?,?,?)";
     $cadastro = $conn->prepare($cadCurriculo);
 
-    //
+    //VERIFICA A PREPARAÇÃO DO CADASTRO
     if (!$cadastro) {
         http_response_code(500);
         json_encode(['error' => 'Erro na preparação da consulta: '], JSON_UNESCAPED_UNICODE);
         exit;
     }
 
-    //
+    //LIGA OS PARÂMETROS À CONSULTA SQL
     $cadastro->bind_param("ssii", $midia, $dataEnv, $user_id, $curso_id);
 
-    //
+    //VERIFICA A EFETUAÇÃO DO CADASTRO DE CURRICULO
     if (!$cadastro->execute()) {
         http_response_code(500);
         echo json_encode(['Error' => 'Erro ao cadastrar'], JSON_UNESCAPED_UNICODE);

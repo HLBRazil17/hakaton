@@ -1,4 +1,4 @@
-<form class="container" id="formAluno" method="post">
+<form class="container" id="formAluno" method="post" action="/api/v1/cadAluno.php">
     <div class="card-info">
         Este campo de cadastro de alunos é uma parte fundamental do nosso sistema de gerenciamento de alunos. Ele é
         utilizado para coletar informações essenciais de identificação dos alunos, permitindo um registro detalhado e
@@ -54,26 +54,12 @@
     //OBTÉM O HOST DA URL ATUAL
     const urlHost = window.location.origin
 
-    //OBTÉM OS VALORES DOS INPUTS
-    const nome = document.querySelector('#nome').value;
-    const email = document.querySelector('#email').value;
-    const ra = document.querySelector('#ra').value;
-    const telefone = document.querySelector('#telefone').value;
-    const dataNasc = document.querySelector('#dataNasc').value;
-
-
-    //FUNÇÃO QUE EXIBE UM AVISO PARA O USUÁRIO   
-    function mostrarAviso(mensagem, tipo = 'info') {
-        const mensagensAviso = document.querySelector('#mensagensAviso');
-        mensagensAviso.innerHTML = `<div class="aviso ${tipo}">${mensagem}</div>`;
-    }
-
     function getApiCurso() {
         //OBTÉM OS VALORES DOS CURSOS
         fetch(`${urlHost}/api/v1/getCurso.php`, {
-            method: 'GET',
-            credentials: 'include'
-        })
+                method: 'GET',
+                credentials: 'include'
+            })
             .then(response => {
                 return response.json();
             })
@@ -94,18 +80,34 @@
     }
     getApiCurso();
 
-    document.getElementById('formAluno').addEventListener('submit', function (event) {
-        event.preventDefault();
+    document.getElementById('formAluno').addEventListener('submit', function(event) {
+  
+
+        //OBTÉM OS VALORES DOS INPUTS
+        const nome = document.querySelector('#nome').value;
+        const email = document.querySelector('#email').value;
+        const ra = document.querySelector('#ra').value;
+        const telefone = document.querySelector('#telefone').value;
+        const dataNasc = document.querySelector('#dataNasc').value;
+        const cursos = document.querySelector('#cursos').value;
+
+        //VERIFICA SE O RA FOI INSERIDO
+        if (!ra, !dataNasc, !email, !telefone, !cursos) {
+            mostrarAviso('Por favor preencha os campos', 'erro');
+            return;
+        }
+
+        console.log(cursos);
 
         //CAPTURA OS DADOS CONTIDOS NO FORMULÁRIO
         const formData = new FormData(this);
 
         //ENVIA OS DADOS DO ALUNOS PARA O CADASTRO
         fetch(`${urlHost}/api/v1/cadAluno.php`, {
-            method: 'POST',
-            body: formData,
-            credentials: 'include'
-        })
+                method: 'POST',
+                body: formData,
+                credentials: 'include'
+            })
             .then(response => response.json())
             .then(data => {
                 console.log('Cadastro realizado:', data);
@@ -115,7 +117,7 @@
             })
             .catch(error => {
                 console.error('Erro:', error);
-                alert('Erro ao cadastrar aluno. Por favor, tente novamente.');
+                mostrarAviso('Erro ao cadastrar aluno. Por favor, tente novamente.', 'erro');
             });
     });
 </script>

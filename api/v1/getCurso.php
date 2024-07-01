@@ -1,10 +1,12 @@
 <?php
-//VERIFICA SE A REQUEST É UM (POST)
+//VERIFICA SE A REQUEST É UM (GET)
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    
+    $url = $_SERVER['HTTP_HOST'];
 
     //DEFINE O CABEÇALHO EM JSON
     header("Content-Type: application/json");
-    header("Access-Control-Allow-Origin: http://192.168.0.106:8080");
+    header("Access-Control-Allow-Origin: $url");
     header("Access-Control-Allow-Credentials: true");
 
     //CONECTA COMO BANCO DE DADOS
@@ -21,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         throw new \Exception("A tabela não contém cursos cadastrados", 404);
     }
 
-    //ARRAY $CURSOS
+    //ARRAY QUE ARMAZENAM O RESULTADO DA CONSULTA
     $cursos = [];
 
     //RENDERIZA OS RESULTADOS DA CONSULTA
