@@ -1,0 +1,73 @@
++----------------+
+|    Usuario     |
++----------------+
+| - id: int      |
+| - nome: string |
+| - email: string|
+| - telefone: string |
++----------------+
+| + registrar()  |
+| + preencherFormularioAdocao() |
++----------------+
+
++----------------+
+|   Gatinho      |
++----------------+
+| - id: int      |
+| - nome: string |
+| - idade: int   |
+| - raça: string |
+| - sexo: string |
+| - descrição: string|
+| - foto: string |
++----------------+
+| + atualizarInformações() |
++----------------+
+
++----------------+
+|   Doacao       |
++----------------+
+| - id: int      |
+| - usuarioId: int|
+| - gatinhoId: int|
+| - dataDoacao: date|
+| - valor: float |
+| - comprovante: string|
++----------------+
+| + gerarComprovante() |
++----------------+
+
++----------------+
+|   Adocao       |
++----------------+
+| - id: int      |
+| - usuarioId: int|
+| - gatinhoId: int|
+| - motivo: string|
+| - status: string|
++----------------+
+| + avaliarAdocao() |
++----------------+
+
++----------------+
+| Administrador  |
++----------------+
+| - adminId: int |
+| - nome: string |
+| - email: string|
+| - senha: string|
++----------------+
+| + login()      |
+| + gerenciarGatinhos() |
+| + avaliarAdocoes() |
+| + visualizarDoacoes()|
++----------------+
+
++----------------+
+|   Pagina       |
++----------------+
+| - url: string  |
+| - tipo: string |
++----------------+
+| + exibir()     |
++----------------+
