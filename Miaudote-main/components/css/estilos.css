@@ -1,0 +1,205 @@
+/* Importa outros arquivos CSS */
+@import "stlygatos.css";
+@import "adote.css";
+
+/* Estilo para o cabeçalho */
+header {
+    background-color: #fcb2b2; 
+    padding: 0.5rem 2rem; /* Ajusta o padding interno se necessário */
+    height: 150px; /* Define a altura do cabeçalho */
+    display: flex;
+    align-items: center; /* Alinha itens verticalmente no centro */
+    justify-content: center; /* Centraliza os itens horizontalmente */
+}
+
+/* Estilo para a área de navegação e o formulário de busca */
+header .d-flex {
+    display: flex;
+    align-items: center; /* Alinha itens verticalmente no centro */
+}
+
+.text-primary {
+    color: #ff0000 !important; /* Cor para o link ativo */
+}
+
+/* Estilo para a lista de navegação */
+header .nav {
+    display: flex;
+    flex-direction: row; /* Alinha itens horizontalmente */
+    gap: 1rem; /* Espaçamento entre itens */
+    margin-right: 1rem; /* Espaçamento entre a lista e o formulário */
+    font-size: 1.5rem;
+}
+
+/* Estilo para os links de navegação */
+header .nav-link {
+    font-size: 1.5rem; /* Tamanho da fonte aumentado */
+    color: #000000; /* Cor do texto */
+    text-decoration: none;
+}
+
+header .nav-link:hover {
+    color: #000000; /* Cor ao passar o mouse */
+}
+
+/* Estilo para o input de busca */
+header .form-control {
+    font-size: 1rem; /* Tamanho da fonte do input de busca */
+    width: 200px; /* Ajusta a largura do input */
+}
+
+/* Estilo para o ícone do SVG */
+header .bi {
+    width: 50px; /* Ajuste o tamanho do ícone conforme necessário */
+    height: 40px; /* Ajuste o tamanho do ícone conforme necessário */
+}
+
+/* Estilo específico para o header */
+.texto-header {
+    display: flex;
+    align-items: center; /* Alinha a logo e o texto verticalmente no centro */
+    justify-content: center; /* Centraliza horizontalmente */
+}
+
+.logo-header {
+    max-width: 120px; /* Reduz o tamanho máximo da logo */
+    height: auto; /* Mantém a proporção da imagem */
+    margin-right: 100px; /* Espaço entre a logo e os itens de navegação */
+}
+
+.logo {
+    width: 150px; /* Garante que a logo preencha o container */
+    height: 150px; /* Mantém a proporção da imagem */
+}
+
+/* Reseta o padding e margin e define box-sizing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilo para o corpo e outros elementos */
+body {
+    font-family: 'Bebas Neue', sans-serif; /* Define a fonte padrão do site */
+}
+
+main {
+    height: 100vh;
+}
+
+.carousel-item img {
+    width: 100%;
+    height: auto;
+    object-fit: cover; /* Ajusta a imagem para cobrir o elemento */
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto; /* Adiciona centralização automática */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bg-custom {
+    background-color: #ff8f73; /* Cor do fundo do header */
+}
+
+.btn-custom {
+    background-color: #e44141; /* Cor de fundo do botão */
+    color: #ffffff; /* Cor do texto do botão */
+}
+
+.btn-custom:hover {
+    background-color: rgb(254, 240, 173); /* Cor de fundo ao passar o mouse */
+}
+
+.carousel-item {
+    height: 45vh; /* Ajusta a altura do carrossel para a altura da viewport */
+}
+
+.carousel-inner {
+    background-color: #994c30; /* Cor de fundo do carrossel */
+}
+
+.carousel-caption {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center; /* Centraliza o texto */
+    color: white; /* Cor do texto */
+}
+
+.carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ajusta a imagem para cobrir o container */
+}
+
+/* Estilo para o container das seções */
+.container-2 {
+    display: flex;
+    flex-direction: row; /* Alinha os itens horizontalmente */
+    justify-content: center; /* Centraliza horizontalmente */
+    gap: 20px; /* Espaçamento entre os itens */
+    max-width: 960px; /* Define uma largura máxima menor conforme necessário */
+    margin: 0 auto; /* Centraliza o container horizontalmente */
+    padding: 0 15px; /* Adiciona espaçamento interno */
+}
+
+/* Estilo para as imagens dentro das seções */
+.img-fixed-size {
+    width: 150px; /* Define a largura fixa para a imagem */
+    height: 150px; /* Define a altura fixa para a imagem */
+    border-radius: 50%; /* Torna a imagem redonda */
+    object-fit: cover; /* Ajusta a imagem para cobrir a área sem distorção */
+}
+
+.spacer {
+    width: 20px;
+    display: inline-block;
+}
+
+.adopt-text {
+    text-align: center; /* Centraliza o texto */
+    color: #ff0062; /* Define a cor do texto */
+    margin: 20px 0; /* Adiciona espaço acima e abaixo do parágrafo */
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px; /* Aumenta o tamanho da fonte do parágrafo */
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .carousel-caption h1 {
+        font-size: 1.5rem;
+    }
+
+    .container-2 .col-sm-4 {
+        max-width: 100%; /* Colunas ocupam toda a largura disponível em telas menores */
+    }
+}
+
+footer {
+    padding: 20px;
+    background-color: #ff9900; /* Ajuste conforme necessário */
+}
+
+footer .social-icons a {
+    font-size: 24px;
+    color: #ffffff; /* Cor do texto dos ícones */
+}
+
+footer .social-icons a:hover {
+    color: #ffffff; /* Cor do texto dos ícones ao passar o mouse */
+}

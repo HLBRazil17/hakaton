@@ -1,0 +1,96 @@
+/* Estilo para o elemento main */
+main {
+    height: 100vh;
+}
+
+/* Estilo para a seção do gato */
+.gato {
+    max-width: 1220px;
+    width: 100%; 
+    display: flex;
+    margin-top: 50px;
+    border-radius: 10px;
+    background-color: #ff8f73; /* Fundo suave para destacar a seção */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidade */
+    margin-bottom: 0; /* Remove a margem inferior para evitar espaço extra */
+    padding: 20px;
+}
+
+/* Contêiner da imagem */
+.image-container {
+    flex-shrink: 1; /* Impede que o contêiner da imagem encolha */
+    width: 400px; /* Ajuste o tamanho conforme necessário */
+    height: 400px; /* Ajuste o tamanho conforme necessário */
+    margin-right: 50px; /* Espaçamento entre a imagem e o texto */
+    overflow: hidden;
+    position: relative;
+}
+
+/* Imagem dentro do contêiner */
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Faz a imagem preencher o contêiner sem distorcer */
+    border-radius: 8px; /* Adiciona bordas arredondadas à imagem */
+    margin-bottom: 100px;
+}
+
+/* Contêiner do texto principal */
+.container .text-content {
+    flex: 1;
+    width: 100%;  /* Faz com que o texto ocupe o espaço restante */
+    text-align: center; /* Centraliza o texto */
+    color: #ff0062; /* Define a cor do texto */
+    margin: 50px 0; /* Adiciona espaço acima e abaixo do parágrafo */
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 50px; /* Tamanho fixo da fonte */
+}
+.container .text-content h2 {
+    font-size: inherit; /* Herda o tamanho de fonte da .text-content */
+    margin: 0; /* Remove margem padrão do h2 */
+}
+
+/* Contêiner do texto secundário */
+.container .text-content2 {
+    flex: 1;
+    width: 100%;  /* Faz com que o texto ocupe o espaço restante */
+    text-align: center; /* Centraliza o texto */
+    color: #ff0062; /* Define a cor do texto */
+    margin: 20px 0; /* Adiciona espaço acima e abaixo do parágrafo */
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px; /* Tamanho fixo da fonte para o texto secundário */
+}
+
+/* Estilo para o corpo da página */
+body {
+    background: #ffffff;
+    color: #060606;
+    text-align: center;
+    margin: 0; /* Remove a margem padrão do body */
+}
+
+/* Estilo para o contêiner geral */
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
+
+/* Estilo do botão customizado */
+.custom-button {
+    background-color: #ff8f73; 
+    color: white; /* Cor do texto */
+    padding: 15px 32px; /* Espaçamento interno */
+    text-align: center; /* Alinhamento do texto */
+    text-decoration: none; /* Sem sublinhado */
+    display: inline-block; /* Exibição inline */
+    font-size: 16px; /* Tamanho da fonte */
+    margin: 4px 2px; /* Margens */
+    cursor: pointer; /* Cursor de ponteiro */
+    border-radius: 8px; /* Bordas arredondadas */
+    transition: background-color 0.3s ease-in-out; /* Transição suave */
+}
+
+.custom-button:hover {
+    background-color: #ff0062; /* Cor ao passar o mouse */
+}
