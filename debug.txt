@@ -2,3 +2,5 @@ echo "<pre>";
 print_r($variavel);
 echo "</prev>"; 
 exit;
+
+s
